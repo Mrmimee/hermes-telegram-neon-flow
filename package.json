@@ -1,0 +1,6 @@
+{
+  "name": "hermes-telegram-neon-flow",
+  "version": "1.0.0",
+  "description": "Telegram inspired neon glass theme for Hermes",
+  "main": "theme/index.ts"
+}
