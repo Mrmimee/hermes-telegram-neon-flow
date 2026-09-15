@@ -1,0 +1,31 @@
+:root {
+  --hermes-bg: #ffffff;
+  --hermes-surface: rgba(255,255,255,.72);
+  --hermes-text: #111827;
+  --hermes-accent: #8a5cff;
+  --hermes-aurora: linear-gradient(90deg,#00c6ff,#8a5cff,#ff4fd8);
+}
+
+[data-theme="dark"] {
+  --hermes-bg: #09090f;
+  --hermes-surface: rgba(20,20,32,.72);
+  --hermes-text: #f8fafc;
+}
+
+.hermes-glass {
+  background: var(--hermes-surface);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.hermes-aurora {
+  background: var(--hermes-aurora);
+  background-size: 300% 300%;
+  animation: aurora-flow 8s ease infinite;
+}
+
+@keyframes aurora-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
