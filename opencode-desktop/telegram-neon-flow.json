@@ -1,0 +1,81 @@
+{
+  "$schema": "https://opencode.ai/desktop-theme.json",
+  "name": "Telegram Neon Flow",
+  "id": "telegram-neon-flow",
+  "light": {
+    "palette": {
+      "neutral": "#F3F7FC",
+      "ink": "#20242D",
+      "primary": "#6D67F5",
+      "accent": "#E96AB2",
+      "success": "#278B69",
+      "warning": "#B8781E",
+      "error": "#D9475A",
+      "info": "#208DA2",
+      "interactive": "#4EA4F5",
+      "diffAdd": "#E2F4EF",
+      "diffDelete": "#FBE5EA"
+    },
+    "overrides": {
+      "background": "#F3F7FC",
+      "foreground": "#20242D",
+      "card": "#FFFFFF",
+      "primary": "#6D67F5",
+      "primary-foreground": "#FFFFFF",
+      "accent": "#E96AB2",
+      "accent-foreground": "#FFFFFF",
+      "muted": "#EAF1F8",
+      "muted-foreground": "#687486",
+      "border": "#D9E1EC",
+      "input": "#E5EBF2",
+      "ring": "#43C7E8",
+      "sidebar-background": "#EAF1F8",
+      "user-bubble": "#E7F0FF",
+      "syntax-comment": "#7B8798",
+      "syntax-keyword": "#6D67F5",
+      "syntax-string": "#278B69",
+      "syntax-primitive": "#208DA2",
+      "syntax-property": "#C85898",
+      "syntax-type": "#278B69",
+      "syntax-constant": "#D9475A"
+    }
+  },
+  "dark": {
+    "palette": {
+      "neutral": "#050811",
+      "ink": "#F4F8FF",
+      "primary": "#918BFF",
+      "accent": "#FF7CC4",
+      "success": "#6FD3A7",
+      "warning": "#E7C775",
+      "error": "#FF6877",
+      "info": "#51DFF7",
+      "interactive": "#4EA4F5",
+      "diffAdd": "#102D2A",
+      "diffDelete": "#351A28"
+    },
+    "overrides": {
+      "background": "#050811",
+      "foreground": "#F4F8FF",
+      "card": "#101A2B",
+      "primary": "#918BFF",
+      "primary-foreground": "#FFFFFF",
+      "accent": "#FF7CC4",
+      "accent-foreground": "#FFFFFF",
+      "muted": "#071120",
+      "muted-foreground": "#9DAFC8",
+      "border": "#2B4568",
+      "input": "#1B2D46",
+      "ring": "#51DFF7",
+      "sidebar-background": "#071120",
+      "user-bubble": "#153252",
+      "syntax-comment": "#71849F",
+      "syntax-keyword": "#918BFF",
+      "syntax-string": "#6FD3A7",
+      "syntax-primitive": "#51DFF7",
+      "syntax-property": "#E7C775",
+      "syntax-type": "#6FD3A7",
+      "syntax-constant": "#FF7CC4"
+    }
+  }
+}
