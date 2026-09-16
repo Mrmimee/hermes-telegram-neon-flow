@@ -94,7 +94,7 @@ const effectsCss = `
   position: relative;
   z-index: 1;
 }
-
+\n.telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }\n.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:var(--opacity); background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)) scale(var(--scale,1)); transition:transform var(--duration) cubic-bezier(.22,.61,.36,1),opacity var(--duration) ease; will-change:transform,opacity; }\n
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root {
   background:
     radial-gradient(60rem 42rem at 12% 0%, rgba(85,200,232,.12), transparent 70%),
@@ -243,6 +243,7 @@ const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] ::selection { background: color-mix(in srgb, var(--telegram-blue) 30%, transparent); color: var(--ui-text-primary); }
 
 @media (prefers-reduced-motion: reduce) {
+  .telegram-doodle-motion-layer .telegram-doodle-particle { transition: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before,
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after { transition: none; }
@@ -255,32 +256,67 @@ function randomOffset(range) {
   return `${Math.round((Math.random() * 2 - 1) * range)}px`
 }
 
+function svgFor(type, color) {
+  const stroke = encodeURIComponent(color)
+  const paths = {
+    flower: '<circle cx="12" cy="8" r="3"/><circle cx="18" cy="8" r="3"/><circle cx="15" cy="13" r="3"/><circle cx="15" cy="3" r="3"/><circle cx="15" cy="8" r="2"/>',
+    leaf: '<path d="M4 15c5-10 12-12 17-10-2 8-8 13-17 10z"/><path d="M5 14 19 6"/>',
+    heart: '<path d="M12 21S3 15 3 9c0-4 5-6 8-2 3-4 8-2 8 2 0 6-7 12-7 12z"/>',
+    star: '<path d="m12 2 2.2 6.3L21 10l-5.1 3.8L17.5 20 12 16.5 6.5 20l1.6-6.2L3 10l6.8-1.7z"/>',
+    dot: '<circle cx="12" cy="12" r="2"/><circle cx="18" cy="6" r="1"/><circle cx="6" cy="18" r="1"/>',
+    sparkle: '<path d="m12 2 2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/>'
+  }
+  return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='${stroke}' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E${paths[type]}%3C/g%3E%3C/svg%3E")`
+}
+
 function installDoodleMotion(viewport) {
   if (typeof window === 'undefined' || !viewport) return () => {}
   const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
   if (reduced) return () => {}
-
-  let timer = 0
-  let driftIndex = 0
-  const tick = () => {
-    driftIndex += 1
-    const phase = driftIndex % 4
-    const doodleRange = phase === 0 ? 24 : phase === 1 ? 38 : phase === 2 ? 30 : 44
-    const sparkleRange = phase === 0 ? 52 : phase === 1 ? 34 : phase === 2 ? 60 : 42
-
-    viewport.style.setProperty('--doodle-x', randomOffset(doodleRange))
-    viewport.style.setProperty('--doodle-y', randomOffset(Math.round(doodleRange * 0.72)))
-    viewport.style.setProperty('--sparkle-x', randomOffset(sparkleRange))
-    viewport.style.setProperty('--sparkle-y', randomOffset(Math.round(sparkleRange * 0.68)))
-    viewport.style.setProperty('--doodle-tilt', `${Math.round((Math.random() * 2 - 1) * 0.7)}deg`)
-    viewport.style.setProperty('--sparkle-scale', (1.005 + Math.random() * 0.035).toFixed(3))
-    viewport.style.setProperty('--doodle-opacity', (0.88 + Math.random() * 0.14).toFixed(2))
-    viewport.style.setProperty('--sparkle-opacity', (0.82 + Math.random() * 0.22).toFixed(2))
-
-    timer = window.setTimeout(tick, 4300 + Math.round(Math.random() * 6900))
+  const existing = viewport.querySelector(':scope > .telegram-doodle-motion-layer')
+  if (existing) existing.remove()
+  const layer = document.createElement('div')
+  layer.className = 'telegram-doodle-motion-layer'
+  const colors = ['#4EA4F5','#E96AB2','#918BFF','#51DFF7','#F3B562','#74C69D','#FF7CC4','#7FA9FF']
+  const types = ['flower','leaf','heart','star','dot','sparkle']
+  const timers = []
+  const particles = []
+  for (let i = 0; i < 32; i += 1) {
+    const el = document.createElement('span')
+    el.className = 'telegram-doodle-particle'
+    const type = types[Math.floor(Math.random() * types.length)]
+    const color = colors[Math.floor(Math.random() * colors.length)]
+    el.style.setProperty('--left', `${(Math.random() * 96 + 2).toFixed(2)}%`)
+    el.style.setProperty('--top', `${(Math.random() * 94 + 3).toFixed(2)}%`)
+    el.style.setProperty('--size', `${(6 + Math.random() * 8).toFixed(1)}px`)
+    el.style.setProperty('--image', svgFor(type, color))
+    el.style.setProperty('--opacity', (0.26 + Math.random() * 0.32).toFixed(2))
+    layer.appendChild(el)
+    particles.push(el)
   }
-  tick()
-  return () => window.clearTimeout(timer)
+  viewport.prepend(layer)
+
+  const move = (el, first = false) => {
+    const duration = 4800 + Math.round(Math.random() * 6900)
+    const x = Math.round((Math.random() * 2 - 1) * (18 + Math.random() * 42))
+    const y = Math.round((Math.random() * 2 - 1) * (14 + Math.random() * 34))
+    const rot = (Math.random() * 2 - 1) * (1.2 + Math.random() * 3.2)
+    const scale = 0.97 + Math.random() * 0.06
+    const opacity = 0.2 + Math.random() * 0.42
+    el.style.setProperty('--duration', `${duration}ms`)
+    const apply = () => {
+      el.style.setProperty('--tx', `${x}px`)
+      el.style.setProperty('--ty', `${y}px`)
+      el.style.setProperty('--rot', `${rot.toFixed(2)}deg`)
+      el.style.setProperty('--scale', scale.toFixed(3))
+      el.style.setProperty('--opacity', opacity.toFixed(2))
+    }
+    if (first) window.requestAnimationFrame(apply)
+    else apply()
+    timers.push(window.setTimeout(() => move(el), duration + 300 + Math.round(Math.random() * 1500)))
+  }
+  particles.forEach((el, i) => timers.push(window.setTimeout(() => move(el, true), Math.random() * 3200 + i * 45)))
+  return () => { timers.forEach((id) => window.clearTimeout(id)); layer.remove() }
 }
 
 function installEffects(ctx) {
