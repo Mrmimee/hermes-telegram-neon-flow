@@ -38,6 +38,14 @@
       "syntax-property": "#C85898",
       "syntax-type": "#278B69",
       "syntax-constant": "#D9475A"
+    },
+    "visuals": {
+      "glassOpacity": 0.42,
+      "glassBlur": 18,
+      "glassSaturation": 120,
+      "atmosphere": true,
+      "atmosphereOpacity": 0.55,
+      "animation": true
     }
   },
   "dark": {
@@ -76,6 +84,20 @@
       "syntax-property": "#E7C775",
       "syntax-type": "#6FD3A7",
       "syntax-constant": "#FF7CC4"
+    },
+    "visuals": {
+      "glassOpacity": 0.48,
+      "glassBlur": 20,
+      "glassSaturation": 125,
+      "atmosphere": true,
+      "atmosphereOpacity": 0.65,
+      "animation": true
+    }
+  },
+  "pages": {
+    "settings": {
+      "atmosphere": false,
+      "glassOpacity": 0.62
     }
   }
 }
