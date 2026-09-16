@@ -14,13 +14,13 @@ const theme = {
     userBubble: '#E7F0FF', userBubbleBorder: '#CFE0FA'
   },
   darkColors: {
-    background: '#080D16', foreground: '#EEF4FF', card: '#111A28', cardForeground: '#EEF4FF',
-    muted: '#111B29', mutedForeground: '#94A2B7', popover: '#101927', popoverForeground: '#EEF4FF',
-    primary: '#817AFF', primaryForeground: '#080B12', secondary: '#172235', secondaryForeground: '#E4ECF8',
-    accent: '#F17ABB', accentForeground: '#210C17', border: '#26354B', input: '#2A3A51', ring: '#46D2F1',
-    midground: '#817AFF', midgroundForeground: '#080B12', composerRing: '#46D2F1', destructive: '#FF6877',
-    destructiveForeground: '#18070B', sidebarBackground: '#0B1421', sidebarBorder: '#1E2C40',
-    userBubble: '#172A45', userBubbleBorder: '#29466D'
+    background: '#050912', foreground: '#F2F7FF', card: '#0E1829', cardForeground: '#F2F7FF',
+    muted: '#0C1626', mutedForeground: '#9AAAC2', popover: '#0B1525', popoverForeground: '#F2F7FF',
+    primary: '#8C86FF', primaryForeground: '#070A12', secondary: '#14243B', secondaryForeground: '#EAF2FF',
+    accent: '#FF79C2', accentForeground: '#210A17', border: '#253A59', input: '#29405F', ring: '#4BDBF5',
+    midground: '#8C86FF', midgroundForeground: '#070A12', composerRing: '#4BDBF5', destructive: '#FF6877',
+    destructiveForeground: '#18070B', sidebarBackground: '#071120', sidebarBorder: '#1D3554',
+    userBubble: '#132B49', userBubbleBorder: '#2D5A86'
   },
   typography: {
     fontSans: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
@@ -31,8 +31,8 @@ const theme = {
     brightBlack: '#687486', brightRed: '#E25563', brightGreen: '#39A87F', brightYellow: '#D69A38', brightBlue: '#817AFF', brightMagenta: '#E77DB8', brightCyan: '#43C7E8', brightWhite: '#FFFFFF'
   },
   darkTerminal: {
-    foreground: '#EEF4FF', black: '#0D1420', red: '#FF6877', green: '#6FD3A7', yellow: '#E7C775', blue: '#817AFF', magenta: '#F17ABB', cyan: '#46D2F1', white: '#D7E0EE',
-    brightBlack: '#68778D', brightRed: '#FF929D', brightGreen: '#98E8C5', brightYellow: '#F3DC9A', brightBlue: '#AAA5FF', brightMagenta: '#FFACD4', brightCyan: '#8EEBFA', brightWhite: '#FFFFFF'
+    foreground: '#EEF4FF', black: '#0A1220', red: '#FF6877', green: '#6FD3A7', yellow: '#E7C775', blue: '#8C86FF', magenta: '#FF79C2', cyan: '#4BDBF5', white: '#D7E0EE',
+    brightBlack: '#6D7F99', brightRed: '#FF929D', brightGreen: '#98E8C5', brightYellow: '#F3DC9A', brightBlue: '#B2AEFF', brightMagenta: '#FFB4DA', brightCyan: '#91F0FF', brightWhite: '#FFFFFF'
   }
 }
 
@@ -60,9 +60,10 @@ const effectsCss = `
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root {
   background:
-    radial-gradient(42rem 34rem at 7% 7%, color-mix(in srgb, #43d9f2 14%, transparent), transparent 68%),
-    radial-gradient(38rem 30rem at 92% 18%, color-mix(in srgb, #8b7cff 13%, transparent), transparent 70%),
-    radial-gradient(36rem 30rem at 68% 96%, color-mix(in srgb, #f17abb 10%, transparent), transparent 72%),
+    radial-gradient(44rem 36rem at 4% 4%, color-mix(in srgb, var(--dt-ring) 16%, transparent), transparent 68%),
+    radial-gradient(42rem 34rem at 96% 16%, color-mix(in srgb, var(--ui-accent) 15%, transparent), transparent 70%),
+    radial-gradient(40rem 34rem at 68% 100%, color-mix(in srgb, var(--ui-primary) 12%, transparent), transparent 72%),
+    radial-gradient(28rem 22rem at 34% 62%, color-mix(in srgb, var(--dt-ring) 6%, transparent), transparent 72%),
     var(--dt-background);
   background-attachment: fixed;
   isolation: isolate;
@@ -76,12 +77,12 @@ const effectsCss = `
   inset: -24%;
   z-index: 0;
   pointer-events: none;
-  opacity: .30;
+  opacity: .42;
   background:
-    radial-gradient(28rem 20rem at 15% 28%, color-mix(in srgb, #43d9f2 15%, transparent), transparent 72%),
-    radial-gradient(26rem 24rem at 78% 22%, color-mix(in srgb, #817aff 14%, transparent), transparent 74%),
-    radial-gradient(30rem 24rem at 70% 78%, color-mix(in srgb, #f17abb 12%, transparent), transparent 76%);
-  filter: blur(22px) saturate(1.12);
+    radial-gradient(30rem 22rem at 12% 25%, color-mix(in srgb, var(--dt-ring) 22%, transparent), transparent 72%),
+    radial-gradient(28rem 26rem at 80% 18%, color-mix(in srgb, var(--dt-primary) 21%, transparent), transparent 74%),
+    radial-gradient(34rem 26rem at 70% 78%, color-mix(in srgb, var(--ui-accent) 19%, transparent), transparent 76%);
+  filter: blur(26px) saturate(1.2);
   transform: translate3d(0,0,0) scale(1);
   animation: hermes-telegram-aurora 22s ease-in-out infinite alternate;
 }
@@ -92,18 +93,20 @@ const effectsCss = `
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: .12;
-  background-image: radial-gradient(circle at center, color-mix(in srgb, var(--ui-text-primary) 17%, transparent) .65px, transparent .8px);
-  background-size: 18px 18px;
-  mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 82%, transparent);
+  opacity: .15;
+  background-image:
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, var(--dt-ring) 35%, transparent) 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--ui-accent) 28%, transparent) .8px, transparent 1.3px);
+  background-size: 37px 37px, 53px 53px;
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root > * { position: relative; z-index: 1; }
 
 @keyframes hermes-telegram-aurora {
-  0% { transform: translate3d(-1.5%, -1%, 0) scale(1); }
-  50% { transform: translate3d(1%, 1.5%, 0) scale(1.025); }
-  100% { transform: translate3d(2%, -.5%, 0) scale(1.04); }
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+  50% { transform: translate3d(1.5%, 1.8%, 0) scale(1.035); }
+  100% { transform: translate3d(3%, -.8%, 0) scale(1.055); }
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,
@@ -119,19 +122,19 @@ const effectsCss = `
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] {
-  background: color-mix(in srgb, var(--dt-sidebar) 70%, transparent) !important;
-  border-color: color-mix(in srgb, var(--dt-sidebar-border) 72%, transparent) !important;
-  box-shadow: inset -1px 0 color-mix(in srgb, #fff 7%, transparent), 12px 0 42px color-mix(in srgb, #000 7%, transparent);
+  background: color-mix(in srgb, var(--dt-sidebar) 64%, transparent) !important;
+  border-color: color-mix(in srgb, var(--dt-sidebar-border) 78%, transparent) !important;
+  box-shadow: inset -1px 0 color-mix(in srgb, #fff 9%, transparent), 12px 0 48px color-mix(in srgb, #000 13%, transparent), 8px 0 30px color-mix(in srgb, var(--dt-ring) 5%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"] {
-  background: color-mix(in srgb, var(--composer-fill) 78%, transparent) !important;
-  border-color: color-mix(in srgb, var(--dt-composer-ring) 34%, transparent);
-  box-shadow: 0 -18px 42px color-mix(in srgb, #000 8%, transparent), inset 0 1px color-mix(in srgb, #fff 11%, transparent);
+  background: color-mix(in srgb, var(--composer-fill) 72%, transparent) !important;
+  border-color: color-mix(in srgb, var(--dt-composer-ring) 42%, transparent);
+  box-shadow: 0 -18px 42px color-mix(in srgb, #000 11%, transparent), inset 0 1px color-mix(in srgb, #fff 13%, transparent), 0 0 28px color-mix(in srgb, var(--dt-composer-ring) 5%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"]:focus-within {
-  box-shadow: 0 -18px 42px color-mix(in srgb, #000 8%, transparent), 0 0 0 1px color-mix(in srgb, var(--dt-composer-ring) 28%, transparent), 0 0 30px color-mix(in srgb, var(--dt-composer-ring) 10%, transparent);
+  box-shadow: 0 -18px 42px color-mix(in srgb, #000 11%, transparent), 0 0 0 1px color-mix(in srgb, var(--dt-composer-ring) 34%, transparent), 0 0 34px color-mix(in srgb, var(--dt-composer-ring) 15%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="dialog"],
@@ -139,9 +142,9 @@ const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-radix-popper-content-wrapper] > * {
   position: relative;
   overflow: hidden;
-  background: color-mix(in srgb, var(--dt-popover) 76%, transparent) !important;
-  border-color: color-mix(in srgb, var(--dt-border) 72%, transparent) !important;
-  box-shadow: var(--telegram-glass-shadow), inset 0 1px color-mix(in srgb, #fff 12%, transparent);
+  background: color-mix(in srgb, var(--dt-popover) 70%, transparent) !important;
+  border-color: color-mix(in srgb, var(--dt-border) 82%, transparent) !important;
+  box-shadow: 0 22px 70px color-mix(in srgb, #000 25%, transparent), 0 0 34px color-mix(in srgb, var(--ui-accent) 6%, transparent), inset 0 1px color-mix(in srgb, #fff 14%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="dialog"]::before,
@@ -154,25 +157,26 @@ const effectsCss = `
   pointer-events: none;
   border-radius: inherit;
   background: var(--telegram-specular);
-  opacity: .55;
-  mask-image: linear-gradient(to bottom, #000, transparent 42%);
+  opacity: .7;
+  mask-image: linear-gradient(125deg, #000 0%, transparent 36%, transparent 68%, #000 100%);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] header,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="header"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="toolbar"] {
-  background: color-mix(in srgb, var(--dt-background) 68%, transparent) !important;
-  backdrop-filter: blur(20px) saturate(1.16);
-  -webkit-backdrop-filter: blur(20px) saturate(1.16);
-  border-bottom-color: color-mix(in srgb, var(--dt-border) 55%, transparent) !important;
-  box-shadow: 0 8px 28px color-mix(in srgb, #000 5%, transparent), inset 0 -1px color-mix(in srgb, #fff 7%, transparent);
+  background: color-mix(in srgb, var(--dt-background) 62%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(1.18);
+  -webkit-backdrop-filter: blur(20px) saturate(1.18);
+  border-bottom-color: color-mix(in srgb, var(--dt-border) 68%, transparent) !important;
+  box-shadow: 0 8px 30px color-mix(in srgb, #000 8%, transparent), inset 0 -1px color-mix(in srgb, #fff 8%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread-list"] {
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--dt-background) 94%, transparent), transparent 18%),
-    radial-gradient(32rem 20rem at 50% 34%, color-mix(in srgb, var(--ui-accent) 4%, transparent), transparent 75%);
+    linear-gradient(180deg, color-mix(in srgb, var(--dt-background) 88%, transparent), transparent 24%),
+    radial-gradient(36rem 24rem at 50% 30%, color-mix(in srgb, var(--dt-ring) 6%, transparent), transparent 72%),
+    radial-gradient(30rem 22rem at 72% 78%, color-mix(in srgb, var(--ui-accent) 5%, transparent), transparent 74%);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread"] [data-slot="message"],
@@ -183,21 +187,22 @@ const effectsCss = `
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread"] [data-slot="message"]:hover,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread-list"] [data-slot="message"]:hover {
-  background: color-mix(in srgb, var(--ui-accent) 3%, transparent);
+  background: color-mix(in srgb, var(--ui-accent) 4%, transparent);
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 4%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [class*="message-bubble"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [class*="chat-bubble"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-message-bubble] {
-  box-shadow: inset 0 1px color-mix(in srgb, #fff 7%, transparent), 0 4px 18px color-mix(in srgb, #000 5%, transparent);
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 9%, transparent), 0 5px 22px color-mix(in srgb, #000 10%, transparent), 0 0 16px color-mix(in srgb, var(--dt-ring) 3%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [aria-current="page"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [data-state="active"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] [aria-current="page"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] [data-state="active"] {
-  background: linear-gradient(90deg, color-mix(in srgb, var(--ui-accent) 14%, transparent), color-mix(in srgb, var(--ui-accent) 6%, transparent)) !important;
-  box-shadow: inset 2px 0 var(--ui-accent), inset 0 1px color-mix(in srgb, #fff 8%, transparent), 0 5px 18px color-mix(in srgb, var(--ui-accent) 7%, transparent);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--dt-ring) 16%, transparent), color-mix(in srgb, var(--ui-primary) 13%, transparent) 46%, color-mix(in srgb, var(--ui-accent) 10%, transparent)) !important;
+  box-shadow: inset 2px 0 var(--ui-accent), inset 0 1px color-mix(in srgb, #fff 11%, transparent), 0 6px 22px color-mix(in srgb, var(--ui-primary) 10%, transparent), 0 0 24px color-mix(in srgb, var(--dt-ring) 5%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] button,
@@ -205,51 +210,51 @@ const effectsCss = `
   transition: background-color 160ms ease, border-color 160ms ease, box-shadow 180ms ease, transform 120ms ease, filter 180ms ease;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] button:hover,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:hover { filter: saturate(1.04); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:hover { filter: saturate(1.08); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] button:active,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:active { transform: translateY(.5px) scale(.985); }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] button.bg-primary:hover,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"] button[type="submit"]:hover {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 28%, transparent), 0 6px 22px color-mix(in srgb, var(--dt-ring) 20%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 34%, transparent), 0 6px 22px color-mix(in srgb, var(--dt-ring) 24%, transparent), 0 0 28px color-mix(in srgb, var(--ui-primary) 14%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] input:focus,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] textarea:focus,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [contenteditable="true"]:focus {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 55%, transparent), 0 0 20px color-mix(in srgb, var(--dt-ring) 10%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 60%, transparent), 0 0 24px color-mix(in srgb, var(--dt-ring) 13%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] button.rounded-full,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"].rounded-full {
-  box-shadow: inset 0 1px color-mix(in srgb, #fff 8%, transparent), 0 4px 18px color-mix(in srgb, #000 5%, transparent);
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 9%, transparent), 0 4px 18px color-mix(in srgb, #000 8%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-full.border,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-2xl.border,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-xl.border {
-  box-shadow: inset 0 1px color-mix(in srgb, #fff 9%, transparent), 0 6px 24px color-mix(in srgb, #000 5%, transparent);
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 10%, transparent), 0 7px 26px color-mix(in srgb, #000 8%, transparent);
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--ui-text-tertiary) 30%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--ui-text-tertiary) 34%, transparent) transparent;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar { width: 8px; height: 8px; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-track { background: transparent; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--ui-text-tertiary) 24%, transparent);
+  background: color-mix(in srgb, var(--ui-text-tertiary) 27%, transparent);
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: 999px;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--ui-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--ui-accent) 50%, transparent);
   background-clip: padding-box;
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] ::selection {
-  background: color-mix(in srgb, var(--ui-accent) 28%, transparent);
+  background: color-mix(in srgb, var(--ui-accent) 32%, transparent);
   color: var(--ui-text-primary);
 }
 
