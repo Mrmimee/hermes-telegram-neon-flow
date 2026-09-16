@@ -43,9 +43,9 @@ const TYPES = ['flower', 'leaf', 'heart', 'star', 'dot', 'sparkle']
 
 const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.15'%3E%3Cg stroke='%234EA4F5'%3E%3Cpath d='M18 24l13-7-4 10-9-3z'/%3E%3Cpath d='M154 28l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%23E96AB2'%3E%3Cpath d='M71 20c4-7 14-7 18 0 4 7-3 13-9 18-6-5-13-11-9-18z'/%3E%3Cpath d='M190 94c5-6 14-2 14 5 0 7-9 12-14 16-5-4-14-9-14-16 0-7 9-11 14-5z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='39' cy='91' r='8'/%3E%3Cpath d='M34 91h10M39 86v10'/%3E%3Cpath d='M121 164l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M86 105c0-6 5-10 11-10s11 4 11 10-5 10-11 10-11-4-11-10z'/%3E%3Cpath d='M91 105h12M97 99v12'/%3E%3Cpath d='M31 157c5-6 12-6 17 0l-4 5-4-2-4 4-4-4-4 2z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Cpath d='M175 48c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z'/%3E%3Cpath d='M180 48h8M184 44v8'/%3E%3Cpath d='M52 190l3 6 7 1-5 4 1 7-6-3-6 3 1-7-5-4 7-1z'/%3E%3C/g%3E%3Cg stroke='%2374C69D'%3E%3Cpath d='M132 78c8-8 18-5 20 2-8 3-14 7-20 2z'/%3E%3Cpath d='M133 82c5 3 9 7 10 13'/%3E%3Cpath d='M15 126c7-7 15-5 17 2-7 2-12 6-17 1z'/%3E%3Cpath d='M16 130c4 2 7 6 8 10'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Ccircle cx='211' cy='143' r='3'/%3E%3Ccircle cx='66' cy='132' r='2.5'/%3E%3Cpath d='M109 30l1 3 3 1-3 1-1 3-1-3-3-1 3-1z'/%3E%3C/g%3E%3Cg stroke='%237FA9FF'%3E%3Cpath d='M145 119l14-7-5 12-9 2z'/%3E%3Cpath d='M197 183l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
 const doodleSvgWithOpacity = (values) => doodleSvg.replace("stroke-width='1.15'%3E",`stroke-width='1.15' stroke-opacity='${values[0]}'%3E%3Canimate attributeName='stroke-opacity' values='${values.join('%3B')}' keyTimes='0%3B.5%3B1' dur='18s' repeatCount='indefinite'/%3E`)
-const doodleSvgBase = doodleSvgWithOpacity(['.15','.17','.14'])
-const doodleSvgLight = doodleSvgWithOpacity(['.15','.18','.15'])
-const doodleSvgDark = doodleSvgWithOpacity(['.12','.14','.12'])
+const doodleSvgBase = doodleSvgWithOpacity(['.17','.19','.16'])
+const doodleSvgLight = doodleSvgWithOpacity(['.17','.20','.17'])
+const doodleSvgDark = doodleSvgWithOpacity(['.14','.16','.14'])
 
 const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] {
@@ -135,7 +135,7 @@ function installFloatingDoodles() {
     const delay=-Math.random()*duration
     const animation=particle.animate([
       {opacity:0,transform:'translate3d(0,0,0) rotate(0deg) scale(.72)'},
-      {opacity:1,transform:`translate3d(${distanceX*.38}px,${distanceY*.38}px,0) rotate(${rotate*.38}deg) scale(1)` ,offset:.34},
+      {opacity:1,transform:`translate3d(${distanceX*.38}px,${distanceY*.38}px,0) rotate(${rotate*.38}deg) scale(1)`,offset:.34},
       {opacity:.72,transform:`translate3d(${distanceX}px,${distanceY}px,0) rotate(${rotate}deg) scale(.9)`,offset:.72},
       {opacity:0,transform:`translate3d(${distanceX*1.12}px,${distanceY*1.08}px,0) rotate(${rotate*1.15}deg) scale(.74)`}
     ],{duration,delay,iterations:Infinity,easing:'ease-in-out'})
