@@ -57,9 +57,9 @@ const css = `
 @keyframes telegram-night-flow { 0%{transform:translate3d(-3%,-2%,0) scale(1)} 50%{transform:translate3d(2%,2%,0) scale(1.045)} 100%{transform:translate3d(4%,-1%,0) scale(1.08)} }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root { background:radial-gradient(60rem 42rem at 12% 0%,rgba(85,200,232,.12),transparent 70%),radial-gradient(54rem 42rem at 90% 18%,rgba(139,130,255,.10),transparent 72%),linear-gradient(180deg,#F8FBFF,#EEF4FA); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] #root { background:radial-gradient(58rem 42rem at 8% 4%,rgba(81,223,247,.18),transparent 70%),radial-gradient(52rem 46rem at 94% 10%,rgba(145,139,255,.21),transparent 69%),radial-gradient(52rem 42rem at 78% 98%,rgba(255,124,196,.16),transparent 70%),var(--dt-background); background-attachment:fixed; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] { position:relative; isolation:isolate; overflow:auto; background-color:var(--dt-background)!important; background-image:radial-gradient(48rem 30rem at 50% 22%,color-mix(in srgb,var(--telegram-blue) 8%,transparent),transparent 72%),radial-gradient(36rem 30rem at 82% 82%,color-mix(in srgb,var(--pink) 5%,transparent),transparent 74%); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] { position:relative; isolation:isolate; overflow:auto; overflow-anchor:none; background-color:var(--dt-background)!important; background-image:radial-gradient(48rem 30rem at 50% 22%,color-mix(in srgb,var(--telegram-blue) 8%,transparent),transparent 72%),radial-gradient(36rem 30rem at 82% 82%,color-mix(in srgb,var(--pink) 5%,transparent),transparent 74%); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before { display:none; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] > * { position:relative; z-index:1; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] > *:not(.telegram-doodle-motion-layer) { position:relative; z-index:1; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"] { background-color:#EEF4FA!important; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"] { background-color:#050811!important; }
 @keyframes telegram-doodle-field { 0%{background-position:0 0;transform:rotate(0deg) scale(1.008);opacity:.13} 50%{background-position:12px -9px;transform:rotate(.18deg) scale(1.012);opacity:.17} 100%{background-position:-8px 11px;transform:rotate(-.16deg) scale(1.009);opacity:.14} }
@@ -79,7 +79,7 @@ const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] * { scrollbar-width:thin; scrollbar-color:color-mix(in srgb,var(--telegram-blue) 34%,transparent) transparent; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar { width:8px;height:8px; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb { background:color-mix(in srgb,var(--telegram-blue) 28%,transparent); border:2px solid transparent; background-clip:padding-box; border-radius:999px; }
-.telegram-doodle-motion-layer { position:absolute!important; top:0!important; left:0!important; width:100%!important; height:var(--doodle-height,100%)!important; min-height:100%!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }
+.telegram-doodle-motion-layer { position:absolute!important; top:0!important; left:0!important; width:100%!important; height:var(--doodle-height,100%)!important; min-height:100%!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; overflow-anchor:none!important; }
 .telegram-doodle-background-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; background-image:url("${doodleSvg}"); background-repeat:repeat; background-size:168px 168px; opacity:.15; animation:telegram-doodle-field 18s ease-in-out infinite alternate; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] .telegram-doodle-background-layer { opacity:.17; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-background-layer { opacity:.12; filter:brightness(1.08) saturate(1.12); }
@@ -118,7 +118,10 @@ function installDoodleMotion(viewport) {
     particle.style.setProperty('--left',`${(Math.random()*96+2).toFixed(2)}%`); particle.style.setProperty('--top',`${(Math.random()*94+3).toFixed(2)}%`); particle.style.setProperty('--size',`${(6+Math.random()*7).toFixed(1)}px`)
     glyph.style.setProperty('--image',svgFor(type,color)); glyph.style.setProperty('--opacity',(0.24+Math.random()*0.28).toFixed(2)); particle.appendChild(glyph); layer.appendChild(particle); particles.push({particle,glyph})
   }
-  viewport.prepend(layer)
+  const scrollTop=viewport.scrollTop, scrollLeft=viewport.scrollLeft
+  viewport.append(layer)
+  viewport.scrollTop=scrollTop
+  viewport.scrollLeft=scrollLeft
   const syncHeight = () => { if (!layer.isConnected) return; layer.style.setProperty('--doodle-height',`${Math.max(viewport.scrollHeight,viewport.clientHeight)}px`) }
   syncHeight()
   const sizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(syncHeight) : null
