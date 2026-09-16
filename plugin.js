@@ -38,7 +38,7 @@ const theme = {
 
 const EFFECT_STYLE_ID = 'hermes-telegram-neon-flow-effects'
 
-const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='430' height='430' viewBox='0 0 430 430'%3E%3Cg fill='none' stroke='%235b8daa' stroke-width='1.55' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M48 54l38-17-13 31-25-14zm0 0l25 14'/%3E%3Cpath d='M181 55c0-16 14-29 31-29s31 13 31 29-14 29-31 29-31-13-31-29zm16 2c4-4 9-6 15-6m17 0c6 0 11 2 15 6M205 72c5 4 12 4 17 0'/%3E%3Cpath d='M326 39l6 13 14 2-10 10 3 14-13-7-13 7 3-14-10-10 14-2z'/%3E%3Cpath d='M57 190c0-10 9-18 20-18h43c11 0 20 8 20 18s-9 18-20 18H95l-12 12v-12H77c-11 0-20-8-20-18z'/%3E%3Cpath d='M286 178c12-15 36-8 36 10 0 17-22 30-36 42-14-12-36-25-36-42 0-18 24-25 36-10z'/%3E%3Cpath d='M167 286l8 17 18 2-13 12 4 18-17-9-17 9 4-18-13-12 18-2z'/%3E%3Cpath d='M356 282c-13 0-24 10-24 23 0 14 11 24 24 24s24-10 24-24c0-13-11-23-24-23zm-11 23h1m20 0h1m-14 10c3 3 7 3 10 0'/%3E%3Cpath d='M62 365c13-13 34-13 47 0l-8 8-7-5-8 8-8-8-8 5z'/%3E%3Cpath d='M249 370l36-25-8 22 16 5-44 19 8-21z'/%3E%3C/g%3E%3C/svg%3E"
+const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='430' height='430' viewBox='0 0 430 430'%3E%3Cg fill='none' stroke='%235b8daa' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M48 54l38-17-13 31-25-14zm0 0l25 14'/%3E%3Cpath d='M181 55c0-16 14-29 31-29s31 13 31 29-14 29-31 29-31-13-31-29zm16 2c4-4 9-6 15-6m17 0c6 0 11 2 15 6M205 72c5 4 12 4 17 0'/%3E%3Cpath d='M326 39l6 13 14 2-10 10 3 14-13-7-13 7 3-14-10-10 14-2z'/%3E%3Cpath d='M57 190c0-10 9-18 20-18h43c11 0 20 8 20 18s-9 18-20 18H95l-12 12v-12H77c-11 0-20-8-20-18z'/%3E%3Cpath d='M286 178c12-15 36-8 36 10 0 17-22 30-36 42-14-12-36-25-36-42 0-18 24-25 36-10z'/%3E%3Cpath d='M167 286l8 17 18 2-13 12 4 18-17-9-17 9 4-18-13-12 18-2z'/%3E%3Cpath d='M356 282c-13 0-24 10-24 23 0 14 11 24 24 24s24-10 24-24c0-13-11-23-24-23zm-11 23h1m20 0h1m-14 10c3 3 7 3 10 0'/%3E%3Cpath d='M62 365c13-13 34-13 47 0l-8 8-7-5-8 8-8-8-8 5z'/%3E%3Cpath d='M249 370l36-25-8 22 16 5-44 19 8-21z'/%3E%3C/g%3E%3C/svg%3E"
 
 const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] {
@@ -72,8 +72,8 @@ const effectsCss = `
   pointer-events: none;
   background-image: url("${doodleSvg}");
   background-repeat: repeat;
-  background-size: 430px 430px;
-  opacity: .30;
+  background-size: 300px 300px;
+  opacity: .18;
   transform: translateZ(0);
 }
 
@@ -82,7 +82,7 @@ const effectsCss = `
   z-index: 1;
 }
 
-/* Light mode: paper-like blue-white canvas with clearly visible, low-contrast doodles. */
+/* Light mode: smaller, denser and softer doodles for a clean paper-like canvas. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root {
   background:
     radial-gradient(60rem 42rem at 12% 0%, rgba(85,200,232,.12), transparent 70%),
@@ -92,14 +92,14 @@ const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"] {
   background-color: #EEF4FA !important;
   background-image:
-    radial-gradient(48rem 30rem at 50% 22%, rgba(78,164,245,.07), transparent 72%),
-    radial-gradient(36rem 30rem at 82% 82%, rgba(233,106,178,.04), transparent 74%);
+    radial-gradient(48rem 30rem at 50% 22%, rgba(78,164,245,.055), transparent 72%),
+    radial-gradient(36rem 30rem at 82% 82%, rgba(233,106,178,.03), transparent 74%);
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before {
-  opacity: .36;
+  opacity: .20;
 }
 
-/* Dark mode: the same doodle language becomes cool cyan-blue ink over a deep glass canvas. */
+/* Dark mode: compact cool-blue doodles with restrained contrast. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] #root {
   background:
     radial-gradient(58rem 42rem at 8% 4%, rgba(81,223,247,.18), transparent 70%),
@@ -111,12 +111,12 @@ const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"] {
   background-color: #050811 !important;
   background-image:
-    radial-gradient(46rem 28rem at 50% 28%, rgba(81,223,247,.08), transparent 72%),
-    radial-gradient(38rem 28rem at 76% 76%, rgba(255,124,196,.05), transparent 72%);
+    radial-gradient(46rem 28rem at 50% 28%, rgba(81,223,247,.06), transparent 72%),
+    radial-gradient(38rem 28rem at 76% 76%, rgba(255,124,196,.04), transparent 72%);
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before {
-  opacity: .24;
-  filter: brightness(1.2) saturate(1.15);
+  opacity: .14;
+  filter: brightness(1.12) saturate(1.08);
 }
 
 /* Ambient aurora stays behind the application chrome. */
