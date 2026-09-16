@@ -255,6 +255,31 @@ const effectsCss = `
 const DOODLE_COLORS = ['#4EA4F5', '#E96AB2', '#918BFF', '#51DFF7', '#F3B562', '#74C69D', '#FF7CC4', '#7FA9FF']
 const DOODLE_TYPES = ['flower', 'leaf', 'heart', 'star', 'dot', 'sparkle']
 
+const motionCss = `
+.telegram-doodle-motion-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+.telegram-doodle-motion-layer .telegram-doodle-particle {
+  position: absolute;
+  left: var(--left);
+  top: var(--top);
+  width: var(--size);
+  height: var(--size);
+  opacity: var(--opacity);
+  background-image: var(--image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+  transition: transform var(--duration) cubic-bezier(.22,.61,.36,1), opacity var(--duration) ease;
+  will-change: transform, opacity;
+}
+`
+
 function svgFor(type, color) {
   const stroke = encodeURIComponent(color)
   const paths = {
@@ -326,7 +351,7 @@ function installEffects(ctx) {
   if (existing) existing.remove()
   const style = document.createElement('style')
   style.id = EFFECT_STYLE_ID
-  style.textContent = effectsCss
+  style.textContent = `${effectsCss}\n${motionCss}`
   document.head.appendChild(style)
 
   let stopMotion = () => {}
