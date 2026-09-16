@@ -58,13 +58,11 @@ const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root { background:radial-gradient(60rem 42rem at 12% 0%,rgba(85,200,232,.12),transparent 70%),radial-gradient(54rem 42rem at 90% 18%,rgba(139,130,255,.10),transparent 72%),linear-gradient(180deg,#F8FBFF,#EEF4FA); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] #root { background:radial-gradient(58rem 42rem at 8% 4%,rgba(81,223,247,.18),transparent 70%),radial-gradient(52rem 46rem at 94% 10%,rgba(145,139,255,.21),transparent 69%),radial-gradient(52rem 42rem at 78% 98%,rgba(255,124,196,.16),transparent 70%),var(--dt-background); background-attachment:fixed; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] { position:relative; isolation:isolate; overflow:auto; background-color:var(--dt-background)!important; background-image:radial-gradient(48rem 30rem at 50% 22%,color-mix(in srgb,var(--telegram-blue) 8%,transparent),transparent 72%),radial-gradient(36rem 30rem at 82% 82%,color-mix(in srgb,var(--pink) 5%,transparent),transparent 74%); }
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before { content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:url("${doodleSvg}") repeat; background-size:168px 168px; opacity:.15; animation:telegram-doodle-field 18s ease-in-out infinite alternate; }
-@keyframes telegram-doodle-field { 0%{background-position:0 0;transform:rotate(0deg) scale(1.008);opacity:.13} 50%{background-position:12px -9px;transform:rotate(.18deg) scale(1.012);opacity:.17} 100%{background-position:-8px 11px;transform:rotate(-.16deg) scale(1.009);opacity:.14} }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before { display:none; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] > * { position:relative; z-index:1; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"] { background-color:#EEF4FA!important; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before { opacity:.17; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"] { background-color:#050811!important; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before { opacity:.12; filter:brightness(1.08) saturate(1.12); }
+@keyframes telegram-doodle-field { 0%{background-position:0 0;transform:rotate(0deg) scale(1.008);opacity:.13} 50%{background-position:12px -9px;transform:rotate(.18deg) scale(1.012);opacity:.17} 100%{background-position:-8px 11px;transform:rotate(-.16deg) scale(1.009);opacity:.14} }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"],:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"],:root[data-hermes-theme="hermes-telegram-neon-flow"] header,:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="header"],:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="toolbar"],:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="dialog"],:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="menu"],:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-radix-popper-content-wrapper]>* { backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat)); -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat)); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] aside,:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="sidebar"] { background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(246,250,254,.72))!important; border-right:1px solid rgba(120,155,185,.22)!important; box-shadow:inset -1px 0 rgba(255,255,255,.95),12px 0 42px rgba(66,98,130,.08); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] { box-shadow:inset -1px 0 rgba(255,255,255,.16),inset 0 1px rgba(255,255,255,.12),16px 0 55px rgba(0,0,0,.13); }
@@ -81,13 +79,16 @@ const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] * { scrollbar-width:thin; scrollbar-color:color-mix(in srgb,var(--telegram-blue) 34%,transparent) transparent; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar { width:8px;height:8px; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb { background:color-mix(in srgb,var(--telegram-blue) 28%,transparent); border:2px solid transparent; background-clip:padding-box; border-radius:999px; }
-.telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }
+.telegram-doodle-motion-layer { position:absolute!important; top:0!important; left:0!important; width:100%!important; height:var(--doodle-height,100%)!important; min-height:100%!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }
+.telegram-doodle-background-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; background-image:url("${doodleSvg}"); background-repeat:repeat; background-size:168px 168px; opacity:.15; animation:telegram-doodle-field 18s ease-in-out infinite alternate; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] .telegram-doodle-background-layer { opacity:.17; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-background-layer { opacity:.12; filter:brightness(1.08) saturate(1.12); }
 .telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)); transition:transform var(--duration,7000ms) cubic-bezier(.22,.61,.36,1); will-change:transform; }
 .telegram-doodle-motion-layer .telegram-doodle-glyph { display:block; width:100%; height:100%; background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; opacity:var(--opacity,.34); transform:scale(var(--breath,1)); transition:transform var(--breath-duration,4200ms) ease-in-out,opacity var(--breath-duration,4200ms) ease-in-out,filter 700ms ease; will-change:transform,opacity; }
 .telegram-doodle-motion-layer .telegram-doodle-glyph.is-sparkling { filter:brightness(1.24) saturate(1.12); transform:scale(1.08); opacity:.68; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-glyph { filter:saturate(1.06) brightness(1.03); }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-glyph.is-sparkling { filter:saturate(1.16) brightness(1.22); }
-@media (prefers-reduced-motion:reduce) { .telegram-doodle-motion-layer .telegram-doodle-particle,.telegram-doodle-motion-layer .telegram-doodle-glyph { transition:none!important; } :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before,:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before { animation:none; } :root[data-hermes-theme="hermes-telegram-neon-flow"] button,:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] { transition:none; } }
+@media (prefers-reduced-motion:reduce) { .telegram-doodle-motion-layer .telegram-doodle-particle,.telegram-doodle-motion-layer .telegram-doodle-glyph { transition:none!important; } .telegram-doodle-background-layer { animation:none!important; } :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before,:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before { animation:none; } :root[data-hermes-theme="hermes-telegram-neon-flow"] button,:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] { transition:none; } }
 `
 
 function svgFor(type, color) {
@@ -107,6 +108,7 @@ function installDoodleMotion(viewport) {
   if (typeof window === 'undefined' || !viewport || window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return () => {}
   viewport.querySelector(':scope > .telegram-doodle-motion-layer')?.remove()
   const layer = document.createElement('div'); layer.className = 'telegram-doodle-motion-layer'
+  const background = document.createElement('div'); background.className = 'telegram-doodle-background-layer'; layer.appendChild(background)
   const timers = new Set(); const later = (fn, ms) => { const id = window.setTimeout(() => { timers.delete(id); fn() }, ms); timers.add(id); return id }
   const particles = []
   for (let i=0;i<30;i++) {
@@ -117,11 +119,16 @@ function installDoodleMotion(viewport) {
     glyph.style.setProperty('--image',svgFor(type,color)); glyph.style.setProperty('--opacity',(0.24+Math.random()*0.28).toFixed(2)); particle.appendChild(glyph); layer.appendChild(particle); particles.push({particle,glyph})
   }
   viewport.prepend(layer)
+  const syncHeight = () => { if (!layer.isConnected) return; layer.style.setProperty('--doodle-height',`${Math.max(viewport.scrollHeight,viewport.clientHeight)}px`) }
+  syncHeight()
+  const sizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(syncHeight) : null
+  sizeObserver?.observe(viewport)
+  const contentObserver = new MutationObserver(syncHeight); contentObserver.observe(viewport,{childList:true,subtree:true,characterData:true})
   const move = particle => { if(!particle.isConnected)return; const duration=5200+Math.round(Math.random()*6200); particle.style.setProperty('--duration',`${duration}ms`); particle.style.setProperty('--tx',`${Math.round((Math.random()*2-1)*(18+Math.random()*42))}px`); particle.style.setProperty('--ty',`${Math.round((Math.random()*2-1)*(14+Math.random()*34))}px`); particle.style.setProperty('--rot',`${((Math.random()*2-1)*(1.1+Math.random()*3)).toFixed(2)}deg`); later(()=>move(particle),duration+500+Math.random()*1200) }
   const breathe = glyph => { if(!glyph.isConnected)return; const duration=2800+Math.round(Math.random()*3000); glyph.style.setProperty('--breath-duration',`${duration}ms`); glyph.style.setProperty('--breath',(0.965+Math.random()*0.075).toFixed(3)); glyph.style.opacity=(0.20+Math.random()*0.40).toFixed(2); later(()=>breathe(glyph),duration+400+Math.random()*1200) }
   const sparkle = glyph => { if(!glyph.isConnected)return; later(()=>{ if(Math.random()<.28){ glyph.classList.add('is-sparkling'); later(()=>glyph.classList.remove('is-sparkling'),520+Math.random()*360) } sparkle(glyph) },9000+Math.random()*19000) }
   particles.forEach(({particle,glyph},i)=>{ later(()=>{window.requestAnimationFrame(()=>move(particle))},400+Math.random()*3000+i*35); later(()=>breathe(glyph),700+Math.random()*2600); if(i%4===0) later(()=>sparkle(glyph),5000+Math.random()*9000) })
-  return () => { for(const id of timers)window.clearTimeout(id); timers.clear(); layer.remove() }
+  return () => { for(const id of timers)window.clearTimeout(id); timers.clear(); sizeObserver?.disconnect(); contentObserver.disconnect(); layer.remove() }
 }
 
 function installEffects(ctx) {
