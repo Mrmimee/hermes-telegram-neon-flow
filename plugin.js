@@ -261,12 +261,24 @@ function installDoodleMotion(viewport) {
   if (reduced) return () => {}
 
   let timer = 0
+  let driftIndex = 0
   const tick = () => {
-    viewport.style.setProperty('--doodle-x', randomOffset(34))
-    viewport.style.setProperty('--doodle-y', randomOffset(26))
-    viewport.style.setProperty('--sparkle-x', randomOffset(46))
-    viewport.style.setProperty('--sparkle-y', randomOffset(38))
-    timer = window.setTimeout(tick, 5200 + Math.round(Math.random() * 5200))
+    // Two visual layers drift independently. The changing seed keeps the motion from becoming a rigid loop.
+    driftIndex += 1
+    const phase = driftIndex % 4
+    const doodleRange = phase === 0 ? 24 : phase === 1 ? 38 : phase === 2 ? 30 : 44
+    const sparkleRange = phase === 0 ? 52 : phase === 1 ? 34 : phase === 2 ? 60 : 42
+
+    viewport.style.setProperty('--doodle-x', randomOffset(doodleRange))
+    viewport.style.setProperty('--doodle-y', randomOffset(Math.round(doodleRange * 0.72)))
+    viewport.style.setProperty('--sparkle-x', randomOffset(sparkleRange))
+    viewport.style.setProperty('--sparkle-y', randomOffset(Math.round(sparkleRange * 0.68)))
+    viewport.style.setProperty('--doodle-tilt', `${Math.round((Math.random() * 2 - 1) * 0.7)}deg`)
+    viewport.style.setProperty('--sparkle-scale', (1.005 + Math.random() * 0.035).toFixed(3))
+    viewport.style.setProperty('--doodle-opacity', (0.88 + Math.random() * 0.14).toFixed(2))
+    viewport.style.setProperty('--sparkle-opacity', (0.82 + Math.random() * 0.22).toFixed(2))
+
+    timer = window.setTimeout(tick, 4300 + Math.round(Math.random() * 6900))
   }
   tick()
   return () => window.clearTimeout(timer)
