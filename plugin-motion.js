@@ -1,14 +1,20 @@
 import basePlugin from './plugin.js'
 
-const MOTION_STYLE_ID = 'hermes-telegram-doodle-motion-v2'
+const MOTION_STYLE_ID = 'hermes-telegram-doodle-motion-v3'
 const COLORS = ['#4EA4F5', '#E96AB2', '#918BFF', '#51DFF7', '#F3B562', '#74C69D', '#FF7CC4', '#7FA9FF']
 const TYPES = ['flower', 'leaf', 'heart', 'star', 'dot', 'sparkle']
 
 const css = `
 .telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }
-.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:var(--opacity); background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)) scale(var(--scale,1)); transition:transform var(--duration) cubic-bezier(.22,.61,.36,1),opacity var(--duration) ease; will-change:transform,opacity; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-motion-layer .telegram-doodle-particle { filter:saturate(1.08) brightness(1.05); }
-@media (prefers-reduced-motion:reduce) { .telegram-doodle-motion-layer .telegram-doodle-particle { transition:none!important; } }
+.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:1; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)); transition:transform var(--duration,7000ms) cubic-bezier(.22,.61,.36,1); will-change:transform; }
+.telegram-doodle-motion-layer .telegram-doodle-glyph { display:block; width:100%; height:100%; background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; opacity:var(--opacity,.34); transform:scale(var(--breath,1)); transition:transform var(--breath-duration,4200ms) ease-in-out,opacity var(--breath-duration,4200ms) ease-in-out,filter 700ms ease; will-change:transform,opacity; }
+.telegram-doodle-motion-layer .telegram-doodle-glyph.is-sparkling { filter:brightness(1.24) saturate(1.12); transform:scale(1.08); opacity:.68; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-motion-layer .telegram-doodle-glyph { filter:saturate(1.06) brightness(1.03); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] .telegram-doodle-motion-layer .telegram-doodle-glyph.is-sparkling { filter:saturate(1.16) brightness(1.22); }
+@media (prefers-reduced-motion:reduce) {
+  .telegram-doodle-motion-layer .telegram-doodle-particle,
+  .telegram-doodle-motion-layer .telegram-doodle-glyph { transition:none!important; }
+}
 `
 
 function svgFor(type, color) {
@@ -26,69 +32,121 @@ function svgFor(type, color) {
 
 function installMotion(ctx) {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
+  const reducedQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)')
+  if (reducedQuery?.matches) return
+
+  const oldStyle = document.getElementById(MOTION_STYLE_ID)
+  oldStyle?.remove()
   const style = document.createElement('style')
   style.id = MOTION_STYLE_ID
   style.textContent = css
   document.head.appendChild(style)
+
   let layer = null
-  const timers = []
+  let observer = null
+  const timers = new Set()
   const current = () => document.querySelector('[data-slot="aui_thread-viewport"]')
 
+  const later = (fn, delay) => {
+    const id = window.setTimeout(() => { timers.delete(id); fn() }, delay)
+    timers.add(id)
+    return id
+  }
+
   const clear = () => {
-    while (timers.length) window.clearTimeout(timers.pop())
+    for (const id of timers) window.clearTimeout(id)
+    timers.clear()
     layer?.remove()
     layer = null
   }
 
-  const move = (el, first = false) => {
-    const duration = 4800 + Math.round(Math.random() * 6900)
+  const breathe = (glyph) => {
+    if (!glyph.isConnected) return
+    const duration = 2800 + Math.round(Math.random() * 3000)
+    const scale = (0.965 + Math.random() * 0.075).toFixed(3)
+    const opacity = (0.20 + Math.random() * 0.40).toFixed(2)
+    glyph.style.setProperty('--breath-duration', `${duration}ms`)
+    glyph.style.setProperty('--breath', scale)
+    glyph.style.opacity = opacity
+    later(() => breathe(glyph), duration + 300 + Math.round(Math.random() * 1600))
+  }
+
+  const sparkle = (glyph, chance = .22) => {
+    if (!glyph.isConnected) return
+    const delay = 9000 + Math.round(Math.random() * 19000)
+    later(() => {
+      if (Math.random() < chance) {
+        glyph.classList.add('is-sparkling')
+        later(() => glyph.classList.remove('is-sparkling'), 520 + Math.round(Math.random() * 360))
+      }
+      sparkle(glyph, chance)
+    }, delay)
+  }
+
+  const move = (particle, first = false) => {
+    if (!particle.isConnected) return
+    const duration = 5200 + Math.round(Math.random() * 6200)
     const x = Math.round((Math.random() * 2 - 1) * (18 + Math.random() * 42))
     const y = Math.round((Math.random() * 2 - 1) * (14 + Math.random() * 34))
-    const rot = (Math.random() * 2 - 1) * (1.2 + Math.random() * 3.2)
-    const scale = 0.97 + Math.random() * 0.06
-    const opacity = 0.2 + Math.random() * 0.42
-    el.style.setProperty('--duration', `${duration}ms`)
+    const rot = (Math.random() * 2 - 1) * (1.1 + Math.random() * 3.0)
+    particle.style.setProperty('--duration', `${duration}ms`)
     const apply = () => {
-      el.style.setProperty('--tx', `${x}px`)
-      el.style.setProperty('--ty', `${y}px`)
-      el.style.setProperty('--rot', `${rot.toFixed(2)}deg`)
-      el.style.setProperty('--scale', scale.toFixed(3))
-      el.style.setProperty('--opacity', opacity.toFixed(2))
+      particle.style.setProperty('--tx', `${x}px`)
+      particle.style.setProperty('--ty', `${y}px`)
+      particle.style.setProperty('--rot', `${rot.toFixed(2)}deg`)
     }
     if (first) window.requestAnimationFrame(apply)
     else apply()
-    timers.push(window.setTimeout(() => move(el), duration + 300 + Math.round(Math.random() * 1500)))
+    later(() => move(particle), 260 + duration + Math.round(Math.random() * 1300))
   }
 
   const attach = () => {
     clear()
     const viewport = current()
-    if (!viewport || window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return
+    if (!viewport || reducedQuery?.matches) return
+
     layer = document.createElement('div')
     layer.className = 'telegram-doodle-motion-layer'
-    for (let i = 0; i < 32; i += 1) {
-      const el = document.createElement('span')
-      el.className = 'telegram-doodle-particle'
+    const particles = []
+
+    for (let i = 0; i < 30; i += 1) {
+      const particle = document.createElement('span')
+      particle.className = 'telegram-doodle-particle'
+      const glyph = document.createElement('span')
+      glyph.className = 'telegram-doodle-glyph'
       const type = TYPES[Math.floor(Math.random() * TYPES.length)]
       const color = COLORS[Math.floor(Math.random() * COLORS.length)]
-      el.style.setProperty('--left', `${(Math.random() * 96 + 2).toFixed(2)}%`)
-      el.style.setProperty('--top', `${(Math.random() * 94 + 3).toFixed(2)}%`)
-      el.style.setProperty('--size', `${(6 + Math.random() * 8).toFixed(1)}px`)
-      el.style.setProperty('--image', svgFor(type, color))
-      el.style.setProperty('--opacity', (0.26 + Math.random() * 0.32).toFixed(2))
-      layer.appendChild(el)
-      timers.push(window.setTimeout(() => move(el, true), Math.random() * 3200 + i * 45))
+
+      particle.style.setProperty('--left', `${(Math.random() * 96 + 2).toFixed(2)}%`)
+      particle.style.setProperty('--top', `${(Math.random() * 94 + 3).toFixed(2)}%`)
+      particle.style.setProperty('--size', `${(6 + Math.random() * 7).toFixed(1)}px`)
+      glyph.style.setProperty('--image', svgFor(type, color))
+      glyph.style.setProperty('--opacity', (0.24 + Math.random() * 0.28).toFixed(2))
+      particle.appendChild(glyph)
+      layer.appendChild(particle)
+      particles.push({ particle, glyph })
     }
+
     viewport.prepend(layer)
+    for (const { particle, glyph } of particles) {
+      later(() => move(particle, true), 500 + Math.random() * 3000)
+      later(() => breathe(glyph), 700 + Math.random() * 2200)
+      if (Math.random() < .25) later(() => sparkle(glyph), 3000 + Math.random() * 8000)
+    }
   }
 
   attach()
-  const observer = new MutationObserver(() => {
+  observer = new MutationObserver(() => {
     const viewport = current()
     if (viewport && (!layer || !viewport.contains(layer))) attach()
   })
   observer.observe(document.body, { childList: true, subtree: true })
-  ctx.onDispose(() => { clear(); observer.disconnect(); style.remove() })
+
+  ctx.onDispose(() => {
+    clear()
+    observer?.disconnect()
+    style.remove()
+  })
 }
 
 export default {
