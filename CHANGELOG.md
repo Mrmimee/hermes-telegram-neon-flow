@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented here.
 
+## [2.4.0] — 2026-09-16
+
+### Added
+
+- Native OpenCode Desktop theme at `opencode-desktop/telegram-neon-flow.json` using OpenCode's `desktop-theme.json` schema.
+- Light and dark Desktop palettes aligned with the Hermes Telegram Neon Flow design system.
+- Desktop-specific semantic, sidebar, input, ring, bubble, border and syntax overrides.
+
+### OpenCode
+
+- Kept the existing TUI theme at `.opencode/themes/telegram-neon-flow.json`.
+- Added a separate Desktop-native theme definition because OpenCode Desktop and the TUI resolve themes through different native implementations.
+
+### Architecture
+
+- Hermes Desktop continues to use the Liquid Glass browser theme.
+- OpenCode Desktop now has a native desktop theme definition.
+- OpenCode TUI keeps its terminal-safe theme definition.
+- Browser-only blur, animated aurora and doodle motion remain Hermes-specific; the native OpenCode Desktop schema currently describes color/token styling rather than arbitrary CSS effects.
+
 ## [2.3.0] — 2026-09-16
 
 ### Added
