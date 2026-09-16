@@ -1,6 +1,6 @@
 {
   "name": "hermes-telegram-neon-flow",
-  "version": "2.3.0",
-  "description": "Telegram inspired Liquid Glass theme family for Hermes Desktop and OpenCode",
+  "version": "2.4.0",
+  "description": "Telegram inspired Liquid Glass theme family for Hermes Desktop, OpenCode Desktop and OpenCode TUI",
   "main": "plugin.js"
 }
