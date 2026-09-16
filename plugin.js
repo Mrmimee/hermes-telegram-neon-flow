@@ -3,7 +3,7 @@ import { THEMES_AREA } from '@hermes/plugin-sdk'
 const theme = {
   name: 'hermes-telegram-neon-flow',
   label: 'Telegram Neon Flow',
-  description: 'Telegram-inspired Liquid Glass with Telegram-style doodle wallpaper, depth and polished light/dark surfaces.',
+  description: 'Telegram-inspired Liquid Glass with a fine, colorful floral doodle field and polished light/dark surfaces.',
   colors: {
     background: '#F3F7FC', foreground: '#20242D', card: '#FFFFFF', cardForeground: '#20242D',
     muted: '#EAF0F7', mutedForeground: '#687486', popover: '#FDFEFF', popoverForeground: '#20242D',
@@ -38,7 +38,9 @@ const theme = {
 
 const EFFECT_STYLE_ID = 'hermes-telegram-neon-flow-effects'
 
-const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='430' height='430' viewBox='0 0 430 430'%3E%3Cg fill='none' stroke='%235b8daa' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M48 54l38-17-13 31-25-14zm0 0l25 14'/%3E%3Cpath d='M181 55c0-16 14-29 31-29s31 13 31 29-14 29-31 29-31-13-31-29zm16 2c4-4 9-6 15-6m17 0c6 0 11 2 15 6M205 72c5 4 12 4 17 0'/%3E%3Cpath d='M326 39l6 13 14 2-10 10 3 14-13-7-13 7 3-14-10-10 14-2z'/%3E%3Cpath d='M57 190c0-10 9-18 20-18h43c11 0 20 8 20 18s-9 18-20 18H95l-12 12v-12H77c-11 0-20-8-20-18z'/%3E%3Cpath d='M286 178c12-15 36-8 36 10 0 17-22 30-36 42-14-12-36-25-36-42 0-18 24-25 36-10z'/%3E%3Cpath d='M167 286l8 17 18 2-13 12 4 18-17-9-17 9 4-18-13-12 18-2z'/%3E%3Cpath d='M356 282c-13 0-24 10-24 23 0 14 11 24 24 24s24-10 24-24c0-13-11-23-24-23zm-11 23h1m20 0h1m-14 10c3 3 7 3 10 0'/%3E%3Cpath d='M62 365c13-13 34-13 47 0l-8 8-7-5-8 8-8-8-8 5z'/%3E%3Cpath d='M249 370l36-25-8 22 16 5-44 19 8-21z'/%3E%3C/g%3E%3C/svg%3E"
+// Fine, small, multi-color Telegram-inspired "碎花" marks. Kept as an inline SVG so the plugin stays single-file.
+const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.15'%3E%3Cg stroke='%234EA4F5'%3E%3Cpath d='M18 24l13-7-4 10-9-3z'/%3E%3Cpath d='M154 28l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%23E96AB2'%3E%3Cpath d='M71 20c4-7 14-7 18 0 4 7-3 13-9 18-6-5-13-11-9-18z'/%3E%3Cpath d='M190 94c5-6 14-2 14 5 0 7-9 12-14 16-5-4-14-9-14-16 0-7 9-11 14-5z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='39' cy='91' r='8'/%3E%3Cpath d='M34 91h10M39 86v10'/%3E%3Cpath d='M121 164l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M86 105c0-6 5-10 11-10s11 4 11 10-5 10-11 10-11-4-11-10z'/%3E%3Cpath d='M91 105h12M97 99v12'/%3E%3Cpath d='M31 157c5-6 12-6 17 0l-4 5-4-2-4 4-4-4-4 2z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Cpath d='M175 48c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z'/%3E%3Cpath d='M180 48h8M184 44v8'/%3E%3Cpath d='M52 190l3 6 7 1-5 4 1 7-6-3-6 3 1-7-5-4 7-1z'/%3E%3C/g%3E%3Cg stroke='%2374C69D'%3E%3Cpath d='M132 78c8-8 18-5 20 2-8 3-14 7-20 2z'/%3E%3Cpath d='M133 82c5 3 9 7 10 13'/%3E%3Cpath d='M15 126c7-7 15-5 17 2-7 2-12 6-17 1z'/%3E%3Cpath d='M16 130c4 2 7 6 8 10'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Ccircle cx='211' cy='143' r='3'/%3E%3Ccircle cx='66' cy='132' r='2.5'/%3E%3Cpath d='M109 30l1 3 3 1-3 1-1 3-1-3-3-1 3-1z'/%3E%3C/g%3E%3Cg stroke='%237FA9FF'%3E%3Cpath d='M145 119l14-7-5 12-9 2z'/%3E%3Cpath d='M197 183l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
+const sparkleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1'%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M22 46l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Cpath d='M118 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='92' cy='120' r='3'/%3E%3Cpath d='M148 92l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Ccircle cx='48' cy='142' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
 
 const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] {
@@ -51,7 +53,6 @@ const effectsCss = `
   --night-shadow: 0 24px 80px color-mix(in srgb, #000 34%, transparent);
 }
 
-/* Hermes Desktop uses aui_thread-viewport as the actual scrollable transcript surface. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] {
   position: relative;
   isolation: isolate;
@@ -64,25 +65,36 @@ const effectsCss = `
   background-size: cover;
 }
 
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before {
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: url("${doodleSvg}");
   background-repeat: repeat;
-  background-size: 300px 300px;
-  opacity: .18;
-  transform: translateZ(0);
+  will-change: background-position, transform;
 }
-
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before {
+  background-image: url("${doodleSvg}");
+  background-size: 168px 168px;
+  background-position: var(--doodle-x, 0px) var(--doodle-y, 0px);
+  opacity: .15;
+  transition: background-position 5.5s cubic-bezier(.22,.61,.36,1);
+}
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after {
+  background-image: url("${sparkleSvg}");
+  background-size: 138px 138px;
+  background-position: var(--sparkle-x, 0px) var(--sparkle-y, 0px);
+  opacity: .075;
+  transform: scale(1.02);
+  transition: background-position 7s cubic-bezier(.22,.61,.36,1);
+}
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] > * {
   position: relative;
   z-index: 1;
 }
 
-/* Light mode: smaller, denser and softer doodles for a clean paper-like canvas. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root {
   background:
     radial-gradient(60rem 42rem at 12% 0%, rgba(85,200,232,.12), transparent 70%),
@@ -95,11 +107,9 @@ const effectsCss = `
     radial-gradient(48rem 30rem at 50% 22%, rgba(78,164,245,.055), transparent 72%),
     radial-gradient(36rem 30rem at 82% 82%, rgba(233,106,178,.03), transparent 74%);
 }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before {
-  opacity: .20;
-}
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before { opacity: .17; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::after { opacity: .07; }
 
-/* Dark mode: compact cool-blue doodles with restrained contrast. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] #root {
   background:
     radial-gradient(58rem 42rem at 8% 4%, rgba(81,223,247,.18), transparent 70%),
@@ -114,12 +124,9 @@ const effectsCss = `
     radial-gradient(46rem 28rem at 50% 28%, rgba(81,223,247,.06), transparent 72%),
     radial-gradient(38rem 28rem at 76% 76%, rgba(255,124,196,.04), transparent 72%);
 }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before {
-  opacity: .14;
-  filter: brightness(1.12) saturate(1.08);
-}
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before { opacity: .12; filter: brightness(1.08) saturate(1.12); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::after { opacity: .055; }
 
-/* Ambient aurora stays behind the application chrome. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before {
   content: "";
   position: fixed;
@@ -141,7 +148,6 @@ const effectsCss = `
   100% { transform: translate3d(4%, -1%, 0) scale(1.08); }
 }
 
-/* Glass material. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"],
@@ -179,7 +185,6 @@ const effectsCss = `
   box-shadow: inset -1px 0 rgba(255,255,255,.16), inset 0 1px rgba(255,255,255,.12), 16px 0 55px rgba(0,0,0,.13);
 }
 
-/* Telegram-like selected chat row. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [aria-current="page"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [data-state="active"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] [aria-current="page"],
@@ -188,7 +193,6 @@ const effectsCss = `
   box-shadow: inset 2px 0 var(--telegram-blue), inset 0 1px rgba(255,255,255,.18), 0 5px 22px color-mix(in srgb, var(--telegram-blue) 10%, transparent);
 }
 
-/* Inputs and composer controls. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] input,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] textarea,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [contenteditable="true"] {
@@ -240,10 +244,33 @@ const effectsCss = `
 
 @media (prefers-reduced-motion: reduce) {
   :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation: none; }
+  :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before,
+  :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after { transition: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] button,
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] { transition: none; }
 }
 `
+
+function randomOffset(range) {
+  return `${Math.round((Math.random() * 2 - 1) * range)}px`
+}
+
+function installDoodleMotion(viewport) {
+  if (typeof window === 'undefined' || !viewport) return () => {}
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+  if (reduced) return () => {}
+
+  let timer = 0
+  const tick = () => {
+    viewport.style.setProperty('--doodle-x', randomOffset(34))
+    viewport.style.setProperty('--doodle-y', randomOffset(26))
+    viewport.style.setProperty('--sparkle-x', randomOffset(46))
+    viewport.style.setProperty('--sparkle-y', randomOffset(38))
+    timer = window.setTimeout(tick, 5200 + Math.round(Math.random() * 5200))
+  }
+  tick()
+  return () => window.clearTimeout(timer)
+}
 
 function installEffects(ctx) {
   if (typeof document === 'undefined') return
@@ -253,7 +280,21 @@ function installEffects(ctx) {
   style.id = EFFECT_STYLE_ID
   style.textContent = effectsCss
   document.head.appendChild(style)
-  ctx.onDispose(() => style.remove())
+
+  let stopMotion = () => {}
+  const attach = () => {
+    const viewport = document.querySelector('[data-slot="aui_thread-viewport"]')
+    if (viewport) stopMotion = installDoodleMotion(viewport)
+  }
+  attach()
+  const observer = new MutationObserver(attach)
+  observer.observe(document.body, { childList: true, subtree: true })
+
+  ctx.onDispose(() => {
+    stopMotion()
+    observer.disconnect()
+    style.remove()
+  })
 }
 
 export default {
