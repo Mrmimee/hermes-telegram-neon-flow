@@ -1,6 +1,6 @@
 {
   "name": "hermes-telegram-neon-flow",
-  "version": "2.0.0",
-  "description": "Telegram inspired frosted glass, aurora and interaction theme for Hermes Desktop",
-  "main": "plugin.js"
+  "version": "2.1.0",
+  "description": "Telegram inspired frosted glass, aurora and independently drifting floral doodles for Hermes Desktop",
+  "main": "plugin-motion.js"
 }
