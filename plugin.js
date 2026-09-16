@@ -37,6 +37,10 @@ const theme = {
 }
 
 const STYLE_ID = 'hermes-telegram-neon-flow-effects'
+const MOTION_ID = 'hermes-telegram-neon-flow-floating-doodles'
+const COLORS = ['#4EA4F5', '#E96AB2', '#918BFF', '#51DFF7', '#F3B562', '#74C69D', '#FF7CC4', '#7FA9FF']
+const TYPES = ['flower', 'leaf', 'heart', 'star', 'dot', 'sparkle']
+
 const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.15'%3E%3Cg stroke='%234EA4F5'%3E%3Cpath d='M18 24l13-7-4 10-9-3z'/%3E%3Cpath d='M154 28l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%23E96AB2'%3E%3Cpath d='M71 20c4-7 14-7 18 0 4 7-3 13-9 18-6-5-13-11-9-18z'/%3E%3Cpath d='M190 94c5-6 14-2 14 5 0 7-9 12-14 16-5-4-14-9-14-16 0-7 9-11 14-5z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='39' cy='91' r='8'/%3E%3Cpath d='M34 91h10M39 86v10'/%3E%3Cpath d='M121 164l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M86 105c0-6 5-10 11-10s11 4 11 10-5 10-11 10-11-4-11-10z'/%3E%3Cpath d='M91 105h12M97 99v12'/%3E%3Cpath d='M31 157c5-6 12-6 17 0l-4 5-4-2-4 4-4-4-4 2z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Cpath d='M175 48c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z'/%3E%3Cpath d='M180 48h8M184 44v8'/%3E%3Cpath d='M52 190l3 6 7 1-5 4 1 7-6-3-6 3 1-7-5-4 7-1z'/%3E%3C/g%3E%3Cg stroke='%2374C69D'%3E%3Cpath d='M132 78c8-8 18-5 20 2-8 3-14 7-20 2z'/%3E%3Cpath d='M133 82c5 3 9 7 10 13'/%3E%3Cpath d='M15 126c7-7 15-5 17 2-7 2-12 6-17 1z'/%3E%3Cpath d='M16 130c4 2 7 6 8 10'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Ccircle cx='211' cy='143' r='3'/%3E%3Ccircle cx='66' cy='132' r='2.5'/%3E%3Cpath d='M109 30l1 3 3 1-3 1-1 3-1-3-3-1 3-1z'/%3E%3C/g%3E%3Cg stroke='%237FA9FF'%3E%3Cpath d='M145 119l14-7-5 12-9 2z'/%3E%3Cpath d='M197 183l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
 
 const css = `
@@ -71,8 +75,71 @@ const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] * { scrollbar-width:thin; scrollbar-color:color-mix(in srgb,var(--telegram-blue) 34%,transparent) transparent; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar { width:8px;height:8px; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb { background:color-mix(in srgb,var(--telegram-blue) 28%,transparent); border:2px solid transparent; background-clip:padding-box; border-radius:999px; }
-@media (prefers-reduced-motion:reduce) { :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"],:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation:none; } :root[data-hermes-theme="hermes-telegram-neon-flow"] button,:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] { transition:none; } }
+.telegram-floating-doodles { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }
+.telegram-floating-doodle { position:absolute!important; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:0; transform:translate3d(0,0,0); will-change:transform,opacity; }
+.telegram-floating-doodle-glyph { position:absolute; inset:0; display:block; background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; filter:drop-shadow(0 0 5px color-mix(in srgb,var(--glyph-color) 24%,transparent)); animation:telegram-doodle-breathe var(--breath-duration,5.6s) ease-in-out infinite; }
+.telegram-floating-doodle.is-sparkling .telegram-floating-doodle-glyph { animation:telegram-doodle-breathe var(--breath-duration,5.6s) ease-in-out infinite,telegram-doodle-sparkle var(--sparkle-duration,4.8s) ease-in-out infinite var(--sparkle-delay,0s); }
+@keyframes telegram-doodle-breathe { 0%,100%{transform:scale(.92);opacity:.72} 50%{transform:scale(1.12);opacity:1} }
+@keyframes telegram-doodle-sparkle { 0%,68%,100%{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--glyph-color) 16%,transparent));opacity:.56} 74%{filter:drop-shadow(0 0 11px color-mix(in srgb,var(--glyph-color) 55%,transparent));opacity:1} 79%{filter:drop-shadow(0 0 4px color-mix(in srgb,var(--glyph-color) 22%,transparent));opacity:.68} 84%{filter:drop-shadow(0 0 13px color-mix(in srgb,var(--glyph-color) 62%,transparent));opacity:1} }
+@media (prefers-reduced-motion:reduce) { :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"],:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation:none; } .telegram-floating-doodle,.telegram-floating-doodle-glyph { animation:none!important; } :root[data-hermes-theme="hermes-telegram-neon-flow"] button,:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] { transition:none; } }
 `
+
+const svgFor = (type,color) => {
+  const encodedColor = color.replace('#','%23')
+  const shapes = {
+    flower:`%3Ccircle cx='12' cy='12' r='3.5'/%3E%3Ccircle cx='12' cy='5' r='3.2'/%3E%3Ccircle cx='19' cy='12' r='3.2'/%3E%3Ccircle cx='12' cy='19' r='3.2'/%3E%3Ccircle cx='5' cy='12' r='3.2'/%3E`,
+    leaf:`%3Cpath d='M4 15C7 4 16 4 20 5c-1 10-6 15-16 10Z'/%3E%3Cpath d='M6 18 17 7'/%3E`,
+    heart:`%3Cpath d='M12 20S4 15.2 4 9.7C4 6.7 6.2 5 8.5 5c1.5 0 2.8.8 3.5 2 0.7-1.2 2-2 3.5-2C17.8 5 20 6.7 20 9.7 20 15.2 12 20 12 20Z'/%3E`,
+    star:`%3Cpath d='m12 2 2.7 6.1 6.3.6-4.8 4.2 1.4 6.3-5.6-3.4-5.6 3.4 1.4-6.3L3 8.7l6.3-.6L12 2Z'/%3E`,
+    dot:`%3Ccircle cx='12' cy='12' r='6'/%3E`,
+    sparkle:`%3Cpath d='M12 2l1.8 7.1L21 12l-7.2 2.9L12 22l-1.8-7.1L3 12l7.2-2.9L12 2Z'/%3E`
+  }
+  return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='${encodedColor}' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E${shapes[type] || shapes.dot}%3C/svg%3E`
+}
+
+function installFloatingDoodles() {
+  const root=document.getElementById('root')
+  if(!root)return ()=>{}
+  document.getElementById(MOTION_ID)?.remove()
+  const layer=document.createElement('div')
+  layer.id=MOTION_ID
+  layer.className='telegram-floating-doodles'
+  const animations=[]
+  const count=30
+  for(let i=0;i<count;i++){
+    const particle=document.createElement('span')
+    const glyph=document.createElement('span')
+    const type=TYPES[Math.floor(Math.random()*TYPES.length)]
+    const color=COLORS[Math.floor(Math.random()*COLORS.length)]
+    particle.className=`telegram-floating-doodle${i%4===0?' is-sparkling':''}`
+    glyph.className='telegram-floating-doodle-glyph'
+    particle.style.setProperty('--left',`${(Math.random()*92+4).toFixed(2)}%`)
+    particle.style.setProperty('--top',`${(Math.random()*84+8).toFixed(2)}%`)
+    particle.style.setProperty('--size',`${(7+Math.random()*10).toFixed(1)}px`)
+    particle.style.setProperty('--breath-duration',`${(4.4+Math.random()*3.8).toFixed(2)}s`)
+    particle.style.setProperty('--sparkle-duration',`${(4.2+Math.random()*4.5).toFixed(2)}s`)
+    particle.style.setProperty('--sparkle-delay',`${(-Math.random()*7).toFixed(2)}s`)
+    particle.style.setProperty('--image',`url("${svgFor(type,color)}")`)
+    particle.style.setProperty('--glyph-color',color)
+    glyph.style.opacity=(0.26+Math.random()*0.34).toFixed(2)
+    particle.appendChild(glyph)
+    layer.appendChild(particle)
+    const duration=9000+Math.random()*11000
+    const distanceX=(Math.random()*70-35)
+    const distanceY=(Math.random()*58-29)
+    const rotate=(Math.random()*32-16)
+    const delay=-Math.random()*duration
+    const animation=particle.animate([
+      {opacity:0,transform:'translate3d(0,0,0) rotate(0deg) scale(.72)'},
+      {opacity:1,transform:`translate3d(${distanceX*.38}px,${distanceY*.38}px,0) rotate(${rotate*.38}deg) scale(1)` ,offset:.34},
+      {opacity:.72,transform:`translate3d(${distanceX}px,${distanceY}px,0) rotate(${rotate}deg) scale(.9)`,offset:.72},
+      {opacity:0,transform:`translate3d(${distanceX*1.12}px,${distanceY*1.08}px,0) rotate(${rotate*1.15}deg) scale(.74)`}
+    ],{duration,delay,iterations:Infinity,easing:'ease-in-out'})
+    animations.push(animation)
+  }
+  root.prepend(layer)
+  return ()=>{ for(const animation of animations)animation.cancel(); layer.remove() }
+}
 
 function installEffects(ctx) {
   if(typeof document==='undefined')return
@@ -81,7 +148,8 @@ function installEffects(ctx) {
   style.id=STYLE_ID
   style.textContent=css
   document.head.appendChild(style)
-  ctx.onDispose(()=>style.remove())
+  const stopFloatingDoodles=installFloatingDoodles()
+  ctx.onDispose(()=>{ stopFloatingDoodles(); style.remove() })
 }
 
 export default {
