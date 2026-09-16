@@ -3,7 +3,7 @@ import { THEMES_AREA } from '@hermes/plugin-sdk'
 const theme = {
   name: 'hermes-telegram-neon-flow',
   label: 'Telegram Neon Flow',
-  description: 'Telegram-inspired glass UI with frosted surfaces, aurora lighting, soft glow and fluid interaction effects.',
+  description: 'Telegram-inspired Liquid Glass UI with frosted surfaces, aurora lighting, soft glow and fluid interaction effects.',
   colors: {
     background: '#F3F7FC', foreground: '#20242D', card: '#FFFFFF', cardForeground: '#20242D',
     muted: '#EAF0F7', mutedForeground: '#687486', popover: '#FDFEFF', popoverForeground: '#20242D',
@@ -40,7 +40,6 @@ const EFFECT_STYLE_ID = 'hermes-telegram-neon-flow-effects'
 
 const effectsCss = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] {
-  /* Glass tuning: these are existing Hermes theme knobs, not core patches. */
   --theme-mix-chrome: 72%;
   --theme-mix-sidebar: 72%;
   --theme-mix-card: 28%;
@@ -56,6 +55,7 @@ const effectsCss = `
   --telegram-glass-border: color-mix(in srgb, #fff 22%, var(--dt-border));
   --telegram-glass-shadow: 0 18px 55px color-mix(in srgb, #000 14%, transparent);
   --telegram-glow: color-mix(in srgb, var(--ui-accent) 30%, transparent);
+  --telegram-specular: linear-gradient(115deg, color-mix(in srgb, #fff 12%, transparent), transparent 30%, transparent 70%, color-mix(in srgb, var(--ui-accent) 7%, transparent));
 }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root {
@@ -65,13 +65,47 @@ const effectsCss = `
     radial-gradient(36rem 30rem at 68% 96%, color-mix(in srgb, #f17abb 10%, transparent), transparent 72%),
     var(--dt-background);
   background-attachment: fixed;
+  isolation: isolate;
 }
 
-:root[data-hermes-theme="hermes-telegram-neon-flow"] body {
-  background: var(--dt-background);
+:root[data-hermes-theme="hermes-telegram-neon-flow"] body { background: var(--dt-background); }
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before {
+  content: "";
+  position: fixed;
+  inset: -24%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .30;
+  background:
+    radial-gradient(28rem 20rem at 15% 28%, color-mix(in srgb, #43d9f2 15%, transparent), transparent 72%),
+    radial-gradient(26rem 24rem at 78% 22%, color-mix(in srgb, #817aff 14%, transparent), transparent 74%),
+    radial-gradient(30rem 24rem at 70% 78%, color-mix(in srgb, #f17abb 12%, transparent), transparent 76%);
+  filter: blur(22px) saturate(1.12);
+  transform: translate3d(0,0,0) scale(1);
+  animation: hermes-telegram-aurora 22s ease-in-out infinite alternate;
 }
 
-/* Main chrome: translucent layers let the aurora underneath contribute to the surface. */
+:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .12;
+  background-image: radial-gradient(circle at center, color-mix(in srgb, var(--ui-text-primary) 17%, transparent) .65px, transparent .8px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(to bottom, transparent, #000 16%, #000 82%, transparent);
+}
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] #root > * { position: relative; z-index: 1; }
+
+@keyframes hermes-telegram-aurora {
+  0% { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  50% { transform: translate3d(1%, 1.5%, 0) scale(1.025); }
+  100% { transform: translate3d(2%, -.5%, 0) scale(1.04); }
+}
+
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside,
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"],
@@ -96,84 +130,44 @@ const effectsCss = `
   box-shadow: 0 -18px 42px color-mix(in srgb, #000 8%, transparent), inset 0 1px color-mix(in srgb, #fff 11%, transparent);
 }
 
-/* Elevated surfaces: Telegram-like frosted cards with a fine top highlight. */
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"]:focus-within {
+  box-shadow: 0 -18px 42px color-mix(in srgb, #000 8%, transparent), 0 0 0 1px color-mix(in srgb, var(--dt-composer-ring) 28%, transparent), 0 0 30px color-mix(in srgb, var(--dt-composer-ring) 10%, transparent);
+}
+
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="dialog"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="menu"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-radix-popper-content-wrapper] > * {
+  position: relative;
+  overflow: hidden;
   background: color-mix(in srgb, var(--dt-popover) 76%, transparent) !important;
   border-color: color-mix(in srgb, var(--dt-border) 72%, transparent) !important;
   box-shadow: var(--telegram-glass-shadow), inset 0 1px color-mix(in srgb, #fff 12%, transparent);
 }
 
-/* Composer and floating controls get a soft cyan focus halo rather than a hard ring. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"]:focus-within {
-  box-shadow: 0 -18px 42px color-mix(in srgb, #000 8%, transparent), 0 0 0 1px color-mix(in srgb, var(--dt-composer-ring) 28%, transparent), 0 0 28px color-mix(in srgb, var(--dt-composer-ring) 9%, transparent);
-}
-
-:root[data-hermes-theme="hermes-telegram-neon-flow"] button,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] {
-  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 180ms ease, transform 120ms ease, filter 180ms ease;
-}
-
-:root[data-hermes-theme="hermes-telegram-neon-flow"] button:hover,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:hover {
-  filter: saturate(1.04);
-}
-
-:root[data-hermes-theme="hermes-telegram-neon-flow"] button:active,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:active {
-  transform: translateY(0.5px) scale(0.985);
-}
-
-/* Primary actions: restrained Telegram-blue/cyan glow. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] button.bg-primary:hover,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"] button[type="submit"]:hover {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 28%, transparent), 0 6px 22px color-mix(in srgb, var(--dt-ring) 20%, transparent);
-}
-
-/* Aurora edge light for focused fields. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] input:focus,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] textarea:focus,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [contenteditable="true"]:focus {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 55%, transparent), 0 0 20px color-mix(in srgb, var(--dt-ring) 10%, transparent);
-}
-
-/* A subtle moving light field; no DOM additions and no core source changes. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before {
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="dialog"]::before,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="menu"]::before,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"]::before,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] aside::before {
   content: "";
-  position: fixed;
-  inset: -24%;
-  z-index: 0;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  opacity: .34;
-  background:
-    radial-gradient(28rem 20rem at 15% 28%, color-mix(in srgb, #43d9f2 14%, transparent), transparent 72%),
-    radial-gradient(26rem 24rem at 78% 22%, color-mix(in srgb, #817aff 13%, transparent), transparent 74%),
-    radial-gradient(30rem 24rem at 70% 78%, color-mix(in srgb, #f17abb 11%, transparent), transparent 76%);
-  filter: blur(18px);
-  transform: translate3d(0,0,0);
-  animation: hermes-telegram-aurora 18s ease-in-out infinite alternate;
+  border-radius: inherit;
+  background: var(--telegram-specular);
+  opacity: .55;
+  mask-image: linear-gradient(to bottom, #000, transparent 42%);
 }
 
-:root[data-hermes-theme="hermes-telegram-neon-flow"] #root > * {
-  position: relative;
-  z-index: 1;
+:root[data-hermes-theme="hermes-telegram-neon-flow"] header,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="header"],
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="toolbar"] {
+  background: color-mix(in srgb, var(--dt-background) 68%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(1.16);
+  -webkit-backdrop-filter: blur(20px) saturate(1.16);
+  border-bottom-color: color-mix(in srgb, var(--dt-border) 55%, transparent) !important;
+  box-shadow: 0 8px 28px color-mix(in srgb, #000 5%, transparent), inset 0 -1px color-mix(in srgb, #fff 7%, transparent);
 }
 
-@keyframes hermes-telegram-aurora {
-  0% { transform: translate3d(-1.5%, -1%, 0) scale(1); }
-  50% { transform: translate3d(1%, 1.5%, 0) scale(1.025); }
-  100% { transform: translate3d(2%, -0.5%, 0) scale(1.04); }
-}
-
-/* Fine light catch on floating pills and cards. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-full.border,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-2xl.border,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-xl.border {
-  box-shadow: inset 0 1px color-mix(in srgb, #fff 9%, transparent), 0 6px 24px color-mix(in srgb, #000 5%, transparent);
-}
-
-/* Telegram-style chat atmosphere: depth, message grouping and soft floating separators. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="thread-list"] {
   background:
@@ -192,39 +186,12 @@ const effectsCss = `
   background: color-mix(in srgb, var(--ui-accent) 3%, transparent);
 }
 
-/* Soft message-card treatment where the host exposes a bubble/surface class. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [class*="message-bubble"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [class*="chat-bubble"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-message-bubble] {
-  background: color-mix(in srgb, var(--theme-mix-bubble, var(--dt-card)) 0%, transparent);
   box-shadow: inset 0 1px color-mix(in srgb, #fff 7%, transparent), 0 4px 18px color-mix(in srgb, #000 5%, transparent);
 }
 
-/* A restrained dot matrix adds depth without introducing DOM nodes or competing with text. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] #root::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: .16;
-  background-image: radial-gradient(circle at center, color-mix(in srgb, var(--ui-text-primary) 18%, transparent) 0.7px, transparent 0.8px);
-  background-size: 18px 18px;
-  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
-}
-
-/* Header/toolbar glass: keep controls visually attached to the window chrome. */
-:root[data-hermes-theme="hermes-telegram-neon-flow"] header,
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="header"],
-:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="toolbar"] {
-  background: color-mix(in srgb, var(--dt-background) 68%, transparent) !important;
-  backdrop-filter: blur(20px) saturate(1.16);
-  -webkit-backdrop-filter: blur(20px) saturate(1.16);
-  border-bottom-color: color-mix(in srgb, var(--dt-border) 55%, transparent) !important;
-  box-shadow: 0 8px 28px color-mix(in srgb, #000 5%, transparent), inset 0 -1px color-mix(in srgb, #fff 7%, transparent);
-}
-
-/* Sidebar active item: compact Telegram-like pill with an aurora edge. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [aria-current="page"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] aside [data-state="active"],
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="sidebar"] [aria-current="page"],
@@ -233,63 +200,75 @@ const effectsCss = `
   box-shadow: inset 2px 0 var(--ui-accent), inset 0 1px color-mix(in srgb, #fff 8%, transparent), 0 5px 18px color-mix(in srgb, var(--ui-accent) 7%, transparent);
 }
 
-/* Scrollbars become part of the glass language instead of a solid UI strip. */
+:root[data-hermes-theme="hermes-telegram-neon-flow"] button,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"] {
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 180ms ease, transform 120ms ease, filter 180ms ease;
+}
+:root[data-hermes-theme="hermes-telegram-neon-flow"] button:hover,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:hover { filter: saturate(1.04); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] button:active,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"]:active { transform: translateY(.5px) scale(.985); }
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] button.bg-primary:hover,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="composer-root"] button[type="submit"]:hover {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 28%, transparent), 0 6px 22px color-mix(in srgb, var(--dt-ring) 20%, transparent);
+}
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] input:focus,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] textarea:focus,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [contenteditable="true"]:focus {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dt-ring) 55%, transparent), 0 0 20px color-mix(in srgb, var(--dt-ring) 10%, transparent);
+}
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] button.rounded-full,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"].rounded-full {
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 8%, transparent), 0 4px 18px color-mix(in srgb, #000 5%, transparent);
+}
+
+:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-full.border,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-2xl.border,
+:root[data-hermes-theme="hermes-telegram-neon-flow"] .rounded-xl.border {
+  box-shadow: inset 0 1px color-mix(in srgb, #fff 9%, transparent), 0 6px 24px color-mix(in srgb, #000 5%, transparent);
+}
+
 :root[data-hermes-theme="hermes-telegram-neon-flow"] * {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--ui-text-tertiary) 30%, transparent) transparent;
 }
-
-:root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-:root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+:root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar { width: 8px; height: 8px; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-track { background: transparent; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--ui-text-tertiary) 24%, transparent);
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: 999px;
 }
-
 :root[data-hermes-theme="hermes-telegram-neon-flow"] *::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--ui-accent) 42%, transparent);
   background-clip: padding-box;
 }
 
-/* Selection highlight follows the same cyan/violet glass palette. */
 :root[data-hermes-theme="hermes-telegram-neon-flow"] ::selection {
   background: color-mix(in srgb, var(--ui-accent) 28%, transparent);
   color: var(--ui-text-primary);
 }
 
-/* Reduced motion keeps the visual hierarchy while disabling movement. */
 @media (prefers-reduced-motion: reduce) {
-  :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before {
-    animation: none;
-  }
+  :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] button,
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [role="button"],
-  :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="message"] {
-    transition: none;
-  }
+  :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="message"] { transition: none; }
 }
 `
 
 function installEffects(ctx) {
   if (typeof document === 'undefined') return
-
   const existing = document.getElementById(EFFECT_STYLE_ID)
   if (existing) existing.remove()
-
   const style = document.createElement('style')
   style.id = EFFECT_STYLE_ID
   style.textContent = effectsCss
   document.head.appendChild(style)
-
   ctx.onDispose(() => style.remove())
 }
 
