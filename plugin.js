@@ -38,7 +38,6 @@ const theme = {
 
 const EFFECT_STYLE_ID = 'hermes-telegram-neon-flow-effects'
 
-// Fine, small, multi-color Telegram-inspired "碎花" marks. Kept as an inline SVG so the plugin stays single-file.
 const doodleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.15'%3E%3Cg stroke='%234EA4F5'%3E%3Cpath d='M18 24l13-7-4 10-9-3z'/%3E%3Cpath d='M154 28l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%23E96AB2'%3E%3Cpath d='M71 20c4-7 14-7 18 0 4 7-3 13-9 18-6-5-13-11-9-18z'/%3E%3Cpath d='M190 94c5-6 14-2 14 5 0 7-9 12-14 16-5-4-14-9-14-16 0-7 9-11 14-5z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='39' cy='91' r='8'/%3E%3Cpath d='M34 91h10M39 86v10'/%3E%3Cpath d='M121 164l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z'/%3E%3C/g%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M86 105c0-6 5-10 11-10s11 4 11 10-5 10-11 10-11-4-11-10z'/%3E%3Cpath d='M91 105h12M97 99v12'/%3E%3Cpath d='M31 157c5-6 12-6 17 0l-4 5-4-2-4 4-4-4-4 2z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Cpath d='M175 48c0-5 4-9 9-9s9 4 9 9-4 9-9 9-9-4-9-9z'/%3E%3Cpath d='M180 48h8M184 44v8'/%3E%3Cpath d='M52 190l3 6 7 1-5 4 1 7-6-3-6 3 1-7-5-4 7-1z'/%3E%3C/g%3E%3Cg stroke='%2374C69D'%3E%3Cpath d='M132 78c8-8 18-5 20 2-8 3-14 7-20 2z'/%3E%3Cpath d='M133 82c5 3 9 7 10 13'/%3E%3Cpath d='M15 126c7-7 15-5 17 2-7 2-12 6-17 1z'/%3E%3Cpath d='M16 130c4 2 7 6 8 10'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Ccircle cx='211' cy='143' r='3'/%3E%3Ccircle cx='66' cy='132' r='2.5'/%3E%3Cpath d='M109 30l1 3 3 1-3 1-1 3-1-3-3-1 3-1z'/%3E%3C/g%3E%3Cg stroke='%237FA9FF'%3E%3Cpath d='M145 119l14-7-5 12-9 2z'/%3E%3Cpath d='M197 183l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
 const sparkleSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round' stroke-width='1'%3E%3Cg stroke='%2351DFF7'%3E%3Cpath d='M22 46l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'/%3E%3C/g%3E%3Cg stroke='%23FF7CC4'%3E%3Cpath d='M118 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3C/g%3E%3Cg stroke='%23918BFF'%3E%3Ccircle cx='92' cy='120' r='3'/%3E%3Cpath d='M148 92l1 4 4 1-4 1-1 4-1-4-4-1 4-1z'/%3E%3C/g%3E%3Cg stroke='%23F3B562'%3E%3Ccircle cx='48' cy='142' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"
 
@@ -73,22 +72,23 @@ const effectsCss = `
   z-index: 0;
   pointer-events: none;
   background-repeat: repeat;
-  will-change: background-position, transform;
+  will-change: background-position, transform, opacity;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before {
   background-image: url("${doodleSvg}");
   background-size: 168px 168px;
   background-position: var(--doodle-x, 0px) var(--doodle-y, 0px);
-  opacity: .15;
-  transition: background-position 5.5s cubic-bezier(.22,.61,.36,1);
+  opacity: calc(.15 * var(--doodle-opacity, 1));
+  transform: rotate(var(--doodle-tilt, 0deg)) scale(1.008);
+  transition: background-position 5.2s cubic-bezier(.22,.61,.36,1), transform 5.2s cubic-bezier(.22,.61,.36,1), opacity 4.8s ease;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after {
   background-image: url("${sparkleSvg}");
   background-size: 138px 138px;
   background-position: var(--sparkle-x, 0px) var(--sparkle-y, 0px);
-  opacity: .075;
-  transform: scale(1.02);
-  transition: background-position 7s cubic-bezier(.22,.61,.36,1);
+  opacity: calc(.075 * var(--sparkle-opacity, 1));
+  transform: scale(var(--sparkle-scale, 1.02));
+  transition: background-position 6.8s cubic-bezier(.22,.61,.36,1), transform 6.8s cubic-bezier(.22,.61,.36,1), opacity 5.8s ease;
 }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"] > * {
   position: relative;
@@ -107,8 +107,8 @@ const effectsCss = `
     radial-gradient(48rem 30rem at 50% 22%, rgba(78,164,245,.055), transparent 72%),
     radial-gradient(36rem 30rem at 82% 82%, rgba(233,106,178,.03), transparent 74%);
 }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before { opacity: .17; }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::after { opacity: .07; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::before { opacity: calc(.17 * var(--doodle-opacity, 1)); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] [data-slot="aui_thread-viewport"]::after { opacity: calc(.07 * var(--sparkle-opacity, 1)); }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] #root {
   background:
@@ -124,8 +124,8 @@ const effectsCss = `
     radial-gradient(46rem 28rem at 50% 28%, rgba(81,223,247,.06), transparent 72%),
     radial-gradient(38rem 28rem at 76% 76%, rgba(255,124,196,.04), transparent 72%);
 }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before { opacity: .12; filter: brightness(1.08) saturate(1.12); }
-:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::after { opacity: .055; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::before { opacity: calc(.12 * var(--doodle-opacity, 1)); filter: brightness(1.08) saturate(1.12); }
+:root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="dark"] [data-slot="aui_thread-viewport"]::after { opacity: calc(.055 * var(--sparkle-opacity, 1)); }
 
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before {
   content: "";
@@ -263,7 +263,6 @@ function installDoodleMotion(viewport) {
   let timer = 0
   let driftIndex = 0
   const tick = () => {
-    // Two visual layers drift independently. The changing seed keeps the motion from becoming a rigid loop.
     driftIndex += 1
     const phase = driftIndex % 4
     const doodleRange = phase === 0 ? 24 : phase === 1 ? 38 : phase === 2 ? 30 : 44
