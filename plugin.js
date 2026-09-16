@@ -282,9 +282,13 @@ function installEffects(ctx) {
   document.head.appendChild(style)
 
   let stopMotion = () => {}
+  let currentViewport = null
   const attach = () => {
     const viewport = document.querySelector('[data-slot="aui_thread-viewport"]')
-    if (viewport) stopMotion = installDoodleMotion(viewport)
+    if (!viewport || viewport === currentViewport) return
+    stopMotion()
+    currentViewport = viewport
+    stopMotion = installDoodleMotion(viewport)
   }
   attach()
   const observer = new MutationObserver(attach)
