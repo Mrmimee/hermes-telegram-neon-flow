@@ -94,7 +94,7 @@ const effectsCss = `
   position: relative;
   z-index: 1;
 }
-\n.telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }\n.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:var(--opacity); background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)) scale(var(--scale,1)); transition:transform var(--duration) cubic-bezier(.22,.61,.36,1),opacity var(--duration) ease; will-change:transform,opacity; }\n
+\n.telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }\n.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:var(--opacity); background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)) scale(var(--scale,1)); transition:transform var(--duration) cubic-bezier(.22,.61,.36,1),opacity var(--duration) ease; will-change:transform,opacity; }\n\n.telegram-doodle-motion-layer { position:absolute!important; inset:0!important; z-index:0!important; pointer-events:none!important; overflow:hidden!important; }\n.telegram-doodle-motion-layer .telegram-doodle-particle { position:absolute; left:var(--left); top:var(--top); width:var(--size); height:var(--size); opacity:var(--opacity); background-image:var(--image); background-repeat:no-repeat; background-position:center; background-size:contain; transform:translate3d(var(--tx,0px),var(--ty,0px),0) rotate(var(--rot,0deg)) scale(var(--scale,1)); transition:transform var(--duration) cubic-bezier(.22,.61,.36,1),opacity var(--duration) ease; will-change:transform,opacity; }\n
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] #root {
   background:
     radial-gradient(60rem 42rem at 12% 0%, rgba(85,200,232,.12), transparent 70%),
@@ -244,6 +244,7 @@ const effectsCss = `
 
 @media (prefers-reduced-motion: reduce) {
   .telegram-doodle-motion-layer .telegram-doodle-particle { transition: none; }
+  .telegram-doodle-motion-layer .telegram-doodle-particle { transition: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { animation: none; }
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::before,
   :root[data-hermes-theme="hermes-telegram-neon-flow"] [data-slot="aui_thread-viewport"]::after { transition: none; }
@@ -254,6 +255,19 @@ const effectsCss = `
 
 function randomOffset(range) {
   return `${Math.round((Math.random() * 2 - 1) * range)}px`
+}
+
+function svgFor(type, color) {
+  const stroke = encodeURIComponent(color)
+  const paths = {
+    flower: '<circle cx="12" cy="8" r="3"/><circle cx="18" cy="8" r="3"/><circle cx="15" cy="13" r="3"/><circle cx="15" cy="3" r="3"/><circle cx="15" cy="8" r="2"/>',
+    leaf: '<path d="M4 15c5-10 12-12 17-10-2 8-8 13-17 10z"/><path d="M5 14 19 6"/>',
+    heart: '<path d="M12 21S3 15 3 9c0-4 5-6 8-2 3-4 8-2 8 2 0 6-7 12-7 12z"/>',
+    star: '<path d="m12 2 2.2 6.3L21 10l-5.1 3.8L17.5 20 12 16.5 6.5 20l1.6-6.2L3 10l6.8-1.7z"/>',
+    dot: '<circle cx="12" cy="12" r="2"/><circle cx="18" cy="6" r="1"/><circle cx="6" cy="18" r="1"/>',
+    sparkle: '<path d="m12 2 2 8 8 2-8 2-2 8-2-8-8-2 8-2z"/>'
+  }
+  return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='${stroke}' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E${paths[type]}%3C/g%3E%3C/svg%3E")`
 }
 
 function svgFor(type, color) {
