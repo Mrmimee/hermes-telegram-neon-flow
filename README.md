@@ -39,8 +39,14 @@ After loading, select **Telegram Neon Flow** from the desktop theme picker. Ligh
 - Fine glass highlights, translucent borders and layered shadows
 - Subtle hover / press response
 - Animated doodles with independent floating, breathing and occasional sparkle motion
-- Reduced-motion support
+- Reduced-motion support and lightweight overlay containment
 - Matching terminal palettes
+
+## Current Hermes Desktop SDK alignment
+
+This plugin targets the current native Desktop Plugin SDK contract: a disk plugin is one uncompiled ESM file, imports only public SDK modules, registers the theme through `THEMES_AREA`, and uses `DesktopTheme` fields (`colors`, optional `darkColors`, typography, terminal palettes). The visual CSS is intentionally scoped by Hermes' public `data-hermes-theme` / `data-hermes-mode` attributes. No Hermes Desktop internal modules are imported and no `apps/desktop` source is patched.
+
+The current Hermes runtime also supports live plugin reload and contribution disposal; this plugin removes its stylesheet and animated overlay from `ctx.onDispose`, so reloads do not accumulate DOM, animations, or stale styles.
 
 ## Important architecture
 
