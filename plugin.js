@@ -23,7 +23,7 @@ const theme = {
     userBubble: '#153252', userBubbleBorder: '#326A9A'
   },
   typography: {
-    fontSans: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+    fontSans: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", system-ui, sans-serif',
     fontMono: '"JetBrains Mono", "SF Mono", Menlo, Monaco, monospace'
   },
   terminal: {
@@ -49,10 +49,10 @@ const doodleSvgDark = doodleSvgWithOpacity(['.14','.16','.14'])
 
 const css = `
 :root[data-hermes-theme="hermes-telegram-neon-flow"] {
-  --glass-blur:30px; --glass-sat:1.28; --cyan:#51DFF7; --violet:#918BFF; --pink:#FF7CC4; --telegram-blue:#4EA4F5;
+  --glass-blur:30px; --glass-sat:1.28; --cyan:#51DFF7; --dt-line-height:1.55; --dt-letter-spacing:0; --violet:#918BFF; --pink:#FF7CC4; --telegram-blue:#4EA4F5;
   --night-shadow:0 24px 80px color-mix(in srgb,#000 34%,transparent);
 }
-:root[data-hermes-theme="hermes-telegram-neon-flow"] #root { position:relative; min-height:100%; overflow:hidden; }
+:root[data-hermes-theme="hermes-telegram-neon-flow"] #root { position:relative; min-height:100%; overflow:hidden; font-family:var(--dt-font-sans); text-rendering:optimizeLegibility; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root::before { content:""; position:fixed; inset:-30%; z-index:0; pointer-events:none; background:radial-gradient(30rem 22rem at 18% 30%,color-mix(in srgb,var(--cyan) 20%,transparent),transparent 72%),radial-gradient(30rem 28rem at 72% 18%,color-mix(in srgb,var(--violet) 22%,transparent),transparent 74%),radial-gradient(34rem 26rem at 72% 78%,color-mix(in srgb,var(--pink) 16%,transparent),transparent 75%); filter:blur(38px) saturate(1.22); opacity:.56; animation:telegram-night-flow 24s ease-in-out infinite alternate; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"] #root > * { position:relative; z-index:1; }
 :root[data-hermes-theme="hermes-telegram-neon-flow"][data-hermes-mode="light"] .telegram-floating-doodle { mix-blend-mode:multiply; }
